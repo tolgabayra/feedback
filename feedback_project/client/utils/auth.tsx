@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { useEffect, useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner"
@@ -22,7 +22,7 @@ function withAuth(WrappedComponent: any) {
                         setLoggedIn(true);
                         setLoading(false);
                     } else if (res.status === 403) {
-                        router.push("/auth/login")
+                        router.push("/signin")
                     }
                     else {
                         setLoading(false);
@@ -88,7 +88,7 @@ function withAuth(WrappedComponent: any) {
                     localStorage.clear();
                     console.log("Çıkış Başarılı");
                 }
-                router.push("/auth/login");
+                router.push("/signin");
             } catch (err) {
                 console.log(err);
             }
@@ -115,8 +115,8 @@ function withAuth(WrappedComponent: any) {
                                 <h5 className="">Your session time has expired.</h5>
                                 <p>What do you want ?</p>
                                 <div className="flex">
-                                    <Button onClick={handleLogout} className="mr-2" label="Log out" />
-                                    <Button onClick={extendAccessToken} label="Extend new session time." />
+                                    <Button onClick={handleLogout} className="mr-2 border p-2 hover:text-gray-300" label="Çıkış Yap" />
+                                    <Button className="border p-2 ml-2 hover:text-gray-300" onClick={extendAccessToken} label="Yeni Session Aç" />
                                 </div>
                             </div>
                         </div>

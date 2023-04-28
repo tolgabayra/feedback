@@ -1,11 +1,13 @@
 'use client'
 import Leftbar from "@/components/board/leftbar"
+import withAuth from "@/utils/auth"
 import { appAxios } from "@/utils/axios"
 import { Menu, MenuButton, MenuItem, MenuList, Toast, useToast } from "@chakra-ui/react"
 import { useRouter } from "next/navigation"
 
 
-export default function BoardLayout({
+
+ function BoardLayout({
   children,
 }: {
   children: React.ReactNode
@@ -58,3 +60,5 @@ export default function BoardLayout({
     </div>
   )
 }
+
+export default withAuth(BoardLayout)
