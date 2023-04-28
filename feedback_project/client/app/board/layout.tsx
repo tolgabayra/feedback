@@ -11,8 +11,10 @@ export default function BoardLayout({
   return (
     <div className="h-screen w-screen flex">
       <Leftbar />
+      <div className="w-full overflow-y-auto">
+        {children}
 
-      {children}
+      </div>
 
     </div>
   )
