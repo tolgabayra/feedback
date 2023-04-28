@@ -37,7 +37,7 @@ const Leftbar = () => {
                         <Tooltip label='Board' placement='right'>
                             <Link
                                 href="/board"
-                                className="h-12 px-4  flex justify-center items-center w-full
+                                className="h-12 px-6  flex justify-center items-center w-full
 					">
                                 <svg
                                     className="h-5 w-5"

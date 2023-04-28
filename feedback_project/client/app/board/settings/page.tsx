@@ -6,10 +6,10 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div className='ml-5 mt-9'>
+    <div className='ml-5 mt-4 mr-5'>
       <h1 className='text-xl'>Ayarlar</h1>
       <Divider className='mb-3' />
-      <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(600px, 1fr))' className='mr-4'>
+      <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(300px, 1fr))' className='mr-4'>
         <Card bgColor="blackAlpha.300" textColor="white">
           <CardHeader>
             <Heading size='md'> Kullanıcı Bilgileri</Heading>
