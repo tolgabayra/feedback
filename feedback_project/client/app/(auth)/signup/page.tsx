@@ -48,6 +48,7 @@ export default function SignUp() {
           status: 'error',
           duration: 3000,
           isClosable: true,
+          
         })
         console.log(err);
       })
