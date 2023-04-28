@@ -2,8 +2,10 @@ import React from 'react'
 
 type Props = {}
 
-export default function page({}: Props) {
+export default function page({ }: Props) {
   return (
-    <div>page</div>
+    <div className='ml-5 mt-9'>
+      Settings
+    </div>
   )
 }
