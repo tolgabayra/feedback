@@ -48,7 +48,7 @@ function withAuth(WrappedComponent: any) {
                 if (res.ok) {
                     setLoggedIn(true);
                     setTimeout(() => {
-                        router.reload()
+                        router.refresh()
                     }, 1500)
 
                 } else {
