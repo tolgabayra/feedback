@@ -1,10 +1,9 @@
 'use client'
 
-
 import { appAxios } from '@/utils/axios'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Button, CheckboxIcon, Select } from '@chakra-ui/react'
+import { Button, CheckboxIcon, Select, useToast } from '@chakra-ui/react'
 import { CheckCircleIcon } from '@chakra-ui/icons'
 
 
@@ -26,7 +25,7 @@ export default function SignUp() {
   const [selectedCity, setSelectedCity] = useState()
   const [selectedDistrict, setSelectedDistrict] = useState([])
 
-
+  const toast = useToast()
 
   const handleSignup = (e: any) => {
     e.preventDefault()
@@ -43,6 +42,13 @@ export default function SignUp() {
         console.log(res);
       })
       .catch(err => {
+        toast({
+          title: 'İşlem Başarısız',
+          description: "Şuan talebinizi oluşturamıyoruz.",
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
         console.log(err);
       })
   }
@@ -161,7 +167,7 @@ export default function SignUp() {
                 </div>
                 <div className="flex flex-wrap -mx-3 mt-6">
                   <div className="w-full px-3">
-                    <button className="btn text-white bg-purple-600 hover:bg-purple-700 w-full">Talep Oluştur</button>
+                    <button type='submit' className="btn text-white bg-purple-600 hover:bg-purple-700 w-full">Talep Oluştur</button>
                   </div>
                 </div>
               </form>
@@ -174,7 +180,7 @@ export default function SignUp() {
             :
             <div className='text-center'>
               <h1 className='text-center mt-4 text-4xl'>Oluşturma Talebiniz İletilmiştir</h1>
-              <CheckCircleIcon textColor="green.300"  w="9" h="9"  />
+              <CheckCircleIcon textColor="green.300" w="9" h="9" />
               <p className='text-center mt-1'>Hesabınızın Onaylanması halinde sizinle iletişime geçeceğiz...</p>
               <div>
                 <Link className='flex justify-center mt-6 hover:underline' href="/">Geri dön</Link>
