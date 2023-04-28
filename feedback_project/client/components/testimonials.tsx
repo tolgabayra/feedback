@@ -12,7 +12,7 @@ export default function Testimonials() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 mb-4">Restaurant geri bildirimleri</h2>
+            <h2 className="h2 mb-4">Restorant sahipleri geri bildirimleri</h2>
             <p className="text-xl text-gray-400">Tüm Zamanların En yüksek Olumlu Geri Bildirimine Sahip Mekanları</p>
           </div>
 
