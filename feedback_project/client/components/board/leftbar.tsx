@@ -14,7 +14,7 @@ const Leftbar = () => {
         if (res.status === 200) {
             router.push("/")
         } else {
-            
+
         }
     }
 
@@ -33,11 +33,11 @@ const Leftbar = () => {
                     </Link>
                 </div>
                 <ul>
-                    <li className="hover:bg-gray-400 duration-300">
-                        <Tooltip label='Right' placement='right'>
+                    <li className="hover:bg-gray-400 duration-300 hover:rounded-full">
+                        <Tooltip label='Board' placement='right'>
                             <Link
                                 href="/board"
-                                className="h-16 px-6 flex justify-center items-center w-full
+                                className="h-12 px-4  flex justify-center items-center w-full
 					">
                                 <svg
                                     className="h-5 w-5"
@@ -64,12 +64,12 @@ const Leftbar = () => {
                     </li>
 
 
-                    <li className="hover:bg-gray-400 duration-300">
-                        <Tooltip label='Right' placement='right'>
+                    <li className="hover:bg-gray-400 duration-300 hover:rounded-full">
+                        <Tooltip label='Bildirimler' placement='right'>
 
-                            <a
-                                href="."
-                                className="h-16 px-6 flex  justify-center items-center w-full
+                            <Link
+                                href="/board/notifications"
+                                className="h-12 px-4 flex  mt-2 justify-center items-center w-full
 					">
                                 <svg
                                     className="h-5 w-5"
@@ -86,15 +86,15 @@ const Leftbar = () => {
                                         d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                                 </svg>
-                            </a>
+                            </Link>
                         </Tooltip>
                     </li>
 
-                    <li className="hover:bg-gray-400 duration-300">
-                        <Tooltip label='Right' placement='right'>
+                    <li className="hover:bg-gray-400 duration-300 hover:rounded-full">
+                        <Tooltip label='Ayarlar' placement='right'>
                             <Link
                                 href="/board/settings"
-                                className="h-16 px-6 flex flx justify-center items-center w-full
+                                className="h-12 mt-2 px-4 flex flx justify-center items-center w-full
 					">
                                 <svg
                                     className="h-5 w-5"
@@ -136,9 +136,9 @@ const Leftbar = () => {
                     <button
                         onClick={handleLogout}
                         className="h-16 mx-auto text-xs flex justify-center items-center
-                        hover:text-gray-300 duration-300
-				w-full   focus:outline-none">
-
+                        hover:text-gray-400 duration-300 ease-in-out transition font-semibold
+				        w-full 
+                  ">
                         Çıkış Yap
                     </button>
                 </div>
