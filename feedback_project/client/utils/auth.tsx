@@ -34,6 +34,7 @@ function withAuth(WrappedComponent: any) {
 
             verifyToken();
         }, []);
+
         const extendAccessToken = async () => {
             try {
                 const res = await fetch(
@@ -86,8 +87,8 @@ function withAuth(WrappedComponent: any) {
                     localStorage.clear();
                     console.log("Çıkış Başarılı");
                 }
-                router.push("/signin");
             } catch (err) {
+                router.push("/signin")
                 console.log(err);
             }
 
@@ -107,10 +108,10 @@ function withAuth(WrappedComponent: any) {
                 <div className="mt-3">
                     <h1 className="text-center text-3xl">Üzgünüz, Oturum Süreniz Doldu!</h1>
                     <div className="flex justify-center mt-3">
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <button onClick={handleLogout} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Çıkış Yap
                         </button>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-3">
+                        <button onClick={extendAccessToken} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-3">
                             Oturum Süresini Uzat
                         </button>
                     </div>
