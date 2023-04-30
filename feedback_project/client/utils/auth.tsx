@@ -1,4 +1,5 @@
-import { useRouter } from "next/router";
+'use client'
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function withAuth(WrappedComponent: any) {
@@ -45,7 +46,7 @@ function withAuth(WrappedComponent: any) {
                 if (res.ok) {
                     setLoggedIn(true);
                     setTimeout(() => {
-                        router.reload()
+                        router.refresh()
                     }, 1500)
 
                 } else {
@@ -103,9 +104,16 @@ function withAuth(WrappedComponent: any) {
 
         if (sessionExpired) {
             return (
-                <div>
-
-
+                <div className="mt-3">
+                    <h1 className="text-center text-3xl">Üzgünüz, Oturum Süreniz Doldu!</h1>
+                    <div className="flex justify-center mt-3">
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Çıkış Yap
+                        </button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-3">
+                            Oturum Süresini Uzat
+                        </button>
+                    </div>
                 </div>
             );
         }
