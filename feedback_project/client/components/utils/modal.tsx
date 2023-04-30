@@ -53,7 +53,7 @@ export default function Modal({
         leave="transition ease-out duration-100"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
-        className="fixed inset-0 z-50 bg-black bg-opacity-75 transition-opacity"
+        className="fixed inset-0 z-50 bg-white bg-opacity-75 transition-opacity backdrop-blur-sm"
         aria-hidden="true"
       />
 

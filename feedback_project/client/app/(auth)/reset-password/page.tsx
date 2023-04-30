@@ -1,20 +1,18 @@
 export const metadata = {
-  title: 'Reset Password - Open PRO',
+  title: 'Reset Password - Simple',
   description: 'Page description',
 }
 
-import Link from 'next/link'
-
 export default function ResetPassword() {
   return (
-    <section className="relative">
+    <section className="bg-gradient-to-b from-gray-100 to-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="pt-32 pb-12 md:pt-40 md:pb-20">
 
           {/* Page header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h1 className="h1 mb-4">Parolanızı mı unuttunuz?</h1>
-            <p className="text-xl text-gray-400">Mail adresinize parola sıfırlama bağlantısı göndereceğiz.</p>
+            <h1 className="h1 mb-4">Parolanızı mı unuttunuz ?</h1>
+            <p className="text-xl text-gray-600">Email adresinizi girerek sıfırlama talebinde bulunabilirsiniz.</p>
           </div>
 
           {/* Form */}
@@ -22,19 +20,16 @@ export default function ResetPassword() {
             <form>
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
-                  <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="email">Email</label>
-                  <input id="email" type="email" className="form-input w-full text-gray-300" placeholder="you@yourcompany.com" required />
+                  <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
+                  <input id="email" type="email" className="form-input w-full text-gray-800" placeholder="Email adresinizi girin" required />
                 </div>
               </div>
               <div className="flex flex-wrap -mx-3 mt-6">
                 <div className="w-full px-3">
-                  <button className="btn text-white bg-purple-600 hover:bg-purple-700 w-full">Parola Sıfırla</button>
+                  <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">Sıfırlama bağlantısını gönder</button>
                 </div>
               </div>
             </form>
-            <div className="text-gray-400 text-center mt-6">
-              <Link href="/signin" className="text-purple-600 hover:text-gray-200 transition duration-150 ease-in-out">İptal</Link>
-            </div>
           </div>
 
         </div>
