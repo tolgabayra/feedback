@@ -119,7 +119,7 @@ function DashboardLayout({
             }}
           />
           <Dropdown.Button
-            className=' mt-4 justify-end mr-10'
+            className=' mt-4 justify-end mr-3'
             menu={{
               items
             }}
