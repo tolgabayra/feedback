@@ -9,7 +9,7 @@ import {
 import { Button, Layout, Menu, theme, Dropdown } from 'antd';
 
 import withAuth from "@/utils/auth"
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import Loading from "./loading"
 import { useRouter } from 'next/navigation';
 const { Header, Sider, Content } = Layout;
@@ -30,7 +30,7 @@ function DashboardLayout({
   const handleLogout = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/v1/auth/logout", {
-        method: "POST"
+        method: "POST",
       })
       if (res.status === 200) {
         router.push("/signin")
@@ -55,6 +55,18 @@ function DashboardLayout({
 
   ];
 
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 800) {
+        setCollapsed(true)
+      } else {
+        setCollapsed(false)
+      }
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize()
+    return () => window.removeEventListener("resize", handleResize);
+  }, [])
 
 
   return (
@@ -126,7 +138,6 @@ function DashboardLayout({
           <Suspense fallback={<Loading />}>
             {children}
           </Suspense>
-          Content
         </Content>
       </Layout>
     </Layout>
