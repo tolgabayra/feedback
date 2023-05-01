@@ -1,13 +1,46 @@
-export const metadata = {
-  title: 'Sign In - Simple',
-  description: 'Page description',
-}
-
+'use client'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Button, notification, Space } from 'antd';
 
 export default function SignIn() {
+  const [api, contextHolder] = notification.useNotification();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async (e: any) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      })
+      if (response.status === 200) {
+        router.push("/dashboard")
+      }
+    } catch (err) {
+      console.log(err);
+      api.open({
+        message: 'Opps!',
+        description: 'Email veya parolanız yanlış.',
+        type: 'warning',
+        duration: 1.5
+      });
+    }
+
+  }
+
+
+
+
   return (
     <section className="bg-gradient-to-b from-gray-100 to-white">
+      {contextHolder}
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="pt-32 pb-12 md:pt-16 md:pb-20">
 
@@ -15,14 +48,13 @@ export default function SignIn() {
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h1">Hoşgeldiniz</h1>
           </div>
-
           {/* Form */}
           <div className="max-w-sm mx-auto">
-            <form>
+            <form onSubmit={handleLogin}>
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
                   <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Email</label>
-                  <input id="email" type="email" className="form-input w-full text-gray-800" placeholder="Email adresinizi giriniz" required />
+                  <input onChange={(e) => setEmail(e.target.value)} id="email" type="email" className="form-input w-full text-gray-800" placeholder="Email adresinizi giriniz" required />
                 </div>
               </div>
               <div className="flex flex-wrap -mx-3 mb-4">
@@ -31,10 +63,10 @@ export default function SignIn() {
                     <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="password">Parola</label>
                     <Link href="/reset-password" className="text-sm font-medium text-blue-600 hover:underline">Parolamı Unuttum ?</Link>
                   </div>
-                  <input id="password" type="password" className="form-input w-full text-gray-800" placeholder="Parolanızı giriniz" required />
+                  <input onChange={(e) => setPassword(e.target.value)} id="password" type="password" className="form-input w-full text-gray-800" placeholder="Parolanızı giriniz" required />
                 </div>
               </div>
-              
+
               <div className="flex flex-wrap -mx-3 mt-6">
                 <div className="w-full px-3">
                   <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">Giriş Yap</button>

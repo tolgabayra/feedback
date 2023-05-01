@@ -1,6 +1,8 @@
 'use client'
 
 import withAuth from "@/utils/auth"
+import { Suspense } from "react"
+import Loading from "./loading"
 
 function DashboardLayout({
   children,
@@ -10,10 +12,12 @@ function DashboardLayout({
   return (
     <main className="grow">
       <p>Layout</p>
-      {children}
+      <Suspense fallback={<Loading />}>
+        {children}
+      </Suspense>
 
     </main>
   )
 }
 
-export default withAuth(DashboardLayout)
+export default DashboardLayout
