@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react';
-import UserMenu from './header/UserMenu';
 
 
 function Header({
@@ -37,7 +36,6 @@ function Header({
           <div className="flex items-center">
 
             <hr className="w-px h-6 bg-slate-200 mx-3" />
-            <UserMenu />
           </div>
 
         </div>
