@@ -31,11 +31,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }: any) {
   });
 
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded);
-    if (sidebarExpanded) {
-      document.querySelector('body').classList.add('sidebar-expanded');
+    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
+    const body = document.querySelector('body');
+    if (sidebarExpanded && body) {
+      body.classList.add('sidebar-expanded');
     } else {
-      document.querySelector('body').classList.remove('sidebar-expanded');
+      body?.classList.remove('sidebar-expanded');
     }
   }, [sidebarExpanded]);
 
