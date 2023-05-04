@@ -2,10 +2,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button, notification, Space } from 'antd';
 
 export default function SignIn() {
-  const [api, contextHolder] = notification.useNotification();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -25,12 +23,7 @@ export default function SignIn() {
       }
     } catch (err) {
       console.log(err);
-      api.open({
-        message: 'Opps!',
-        description: 'Email veya parolanız yanlış.',
-        type: 'warning',
-        duration: 1.5
-      });
+      
     }
 
   }
@@ -40,7 +33,6 @@ export default function SignIn() {
 
   return (
     <section className="bg-gradient-to-b from-gray-100 to-white">
-      {contextHolder}
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="pt-32 pb-12 md:pt-16 md:pb-20">
 

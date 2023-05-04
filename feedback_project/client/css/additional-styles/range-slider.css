@@ -10,7 +10,7 @@ input[type=range] {
     height: 6px;
     margin-top: (--range-thumb-size - 6px) * 0.5;
     margin-bottom: (--range-thumb-size - 6px) * 0.5;
-    --thumb-size: #{--range-thumb-size};
+    --thumb-size: #{--range-thumb-size};  
 }
 
 input[type=range]::-webkit-slider-thumb {
@@ -24,7 +24,7 @@ input[type=range]::-webkit-slider-thumb {
     border-radius: 50%;
     cursor: pointer;
     height: --range-thumb-size;
-    width: --range-thumb-size;
+    width: --range-thumb-size;        
 }
 
 input[type=range]::-moz-range-thumb {
@@ -37,7 +37,7 @@ input[type=range]::-moz-range-thumb {
     border-radius: 50%;
     cursor: pointer;
     height: --range-thumb-size;
-    width: --range-thumb-size;
+    width: --range-thumb-size;    
 }
 
 input[type=range]::-ms-thumb {

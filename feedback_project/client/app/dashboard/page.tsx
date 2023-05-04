@@ -1,12 +1,8 @@
-import Link from 'next/link'
 import React from 'react'
 
-type Props = {}
 
-export default function Page({ }: Props) {
+export default function page() {
   return (
-    <div>
-      Page
-    </div>
+    <div>page</div>
   )
 }

@@ -1,14 +1,7 @@
-import './css/style.css'
-
+import './globals.css'
 import { Inter } from 'next/font/google'
 
-import Banner from '@/components/banner'
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap'
-})
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -22,12 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-inter antialiased bg-white text-gray-900 tracking-tight`}>
-        <div className="Simpleflex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-          {children}
-          <Banner />
-        </div>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
