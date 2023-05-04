@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 
 function Sidebar({ sidebarOpen, setSidebarOpen }: any) {
 
-  const trigger = useRef(null);
-  const sidebar = useRef(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const sidebar = useRef<HTMLDivElement>(null);
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
   const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true');
