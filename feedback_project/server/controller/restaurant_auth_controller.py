@@ -15,7 +15,7 @@ def login():
 
     data = RestaurantAuthService.login(email, password)
     if data is None:
-        return jsonify({"Message": "Invalid email or password"})
+        return jsonify({"Message": "Invalid email or password"}), 401
     
     response = jsonify({"access_token": data["access_token"], "refresh_token": data["refresh_token"], "restaurant_id": data["restaurant_id"]})
     response.set_cookie("access_token", data["access_token"], httponly=True)
