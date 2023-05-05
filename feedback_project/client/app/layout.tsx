@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <MantineProvider withGlobalStyles withNormalizeCSS>
-        <Notifications />
+        <Notifications position='top-right' />
         <body>{children}</body>
       </MantineProvider>
     </html>

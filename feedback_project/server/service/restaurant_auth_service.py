@@ -12,8 +12,8 @@ class RestaurantAuthService:
         restaurant = Restaurant.query.filter_by(email=email).first()
         if restaurant is None or not restaurant.check_password(password):
             return None
-        access_token = Helper.generate_access_token(restaurant.id)
-        refresh_token = Helper.generate_refresh_token(restaurant.id)
+        access_token = Helper.generate_access_token({"restaurant_id": restaurant.id, "email": restaurant.email})
+        refresh_token = Helper.generate_refresh_token({"restaurant_id": restaurant.id, "email": restaurant.email})
         restaurant_id = restaurant.id
         return {"access_token": access_token,"refresh_token": refresh_token, "restaurant_id": restaurant_id}
     

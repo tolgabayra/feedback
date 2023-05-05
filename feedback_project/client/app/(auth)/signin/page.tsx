@@ -1,4 +1,5 @@
 'use client'
+import { notifications } from '@mantine/notifications';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -16,19 +17,34 @@ export default function SignIn() {
         headers: {
           "Content-Type": "application/json"
         },
+        credentials: 'include',
         body: JSON.stringify({ email, password })
       })
       if (response.status === 200) {
+        notifications.show({
+          title: 'Başarılı !',
+          message: 'Giriş Yapılıyor...',
+          color: 'green',
+        })
         router.push("/dashboard")
+      } else {
+        notifications.show({
+          title: 'Başarısız !',
+          message: 'Email veya parolanız yanlış.',
+          color: 'red',
+
+        })
       }
     } catch (err) {
       console.log(err);
-      
+      notifications.show({
+        title: 'Bir hata oluştu',
+        message: 'Hey there, your code is awesome! 🤥',
+      })
+
     }
 
   }
-
-
 
 
   return (
