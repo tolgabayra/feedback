@@ -4,9 +4,10 @@ import { useState } from "react"
 import Header from "../partials/Header"
 import Sidebar from "../partials/Sidebar"
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner"
+import withAuth from "@/utils/auth"
 
 
-export default function DashboardLayout({
+function DashboardLayout({
     children,
 }: {
     children: React.ReactNode
@@ -30,3 +31,6 @@ export default function DashboardLayout({
         </div>
     )
 }
+
+
+export default withAuth(DashboardLayout)

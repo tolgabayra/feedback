@@ -1,4 +1,6 @@
 'use client'
+import { Button } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,8 +14,8 @@ function withAuth(WrappedComponent: any) {
         useEffect(() => {
             const verifyToken = async () => {
                 try {
-                    const res = await fetch("http://localhost:5000/api/v1/auth/deneme", {
-                        method: "GET",
+                    const res = await fetch("http://localhost:5000/api/v1/auth/verify", {
+                        method: "POST",
                         credentials: "include",
                     });
                     if (res.ok) {
@@ -46,8 +48,13 @@ function withAuth(WrappedComponent: any) {
                 );
                 if (res.ok) {
                     setLoggedIn(true);
+                    notifications.show({
+                        title: 'Başarılı !',
+                        message: 'İşlemleminize devam edebilirsiniz.',
+                        color: 'green',
+                    })
                     setTimeout(() => {
-                        router.refresh()
+                        window.location.reload()
                     }, 1500)
 
                 } else {
@@ -86,6 +93,7 @@ function withAuth(WrappedComponent: any) {
                 if (res.ok) {
                     localStorage.clear();
                     console.log("Çıkış Başarılı");
+                    router.push("/signin")
                 }
             } catch (err) {
                 router.push("/signin")
@@ -107,13 +115,17 @@ function withAuth(WrappedComponent: any) {
             return (
                 <div className="mt-3">
                     <h1 className="text-center text-3xl">Üzgünüz, Oturum Süreniz Doldu!</h1>
-                    <div className="flex justify-center mt-3">
-                        <button onClick={handleLogout} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+
+                    <div className="flex mt-4 justify-center">
+                        <Button className="mr-3" onClick={handleLogout} color="red" variant="outline"  >
                             Çıkış Yap
-                        </button>
-                        <button onClick={extendAccessToken} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-3">
+                        </Button>
+                        <Button onClick={extendAccessToken} variant="outline" >
                             Oturum Süresini Uzat
-                        </button>
+                        </Button>
+
+
+
                     </div>
                 </div>
             );
