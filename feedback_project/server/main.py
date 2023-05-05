@@ -6,7 +6,7 @@ from controller.city_and_district_controller import city_and_district_controller
 import os
 
 app = Flask(__name__, static_folder="uploads")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tolgabayrakj:lCV9xoDms6Iv@ep-curly-star-321843.eu-central-1.aws.neon.tech/neondb'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('NEON_DB')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
 db.init_app(app)
