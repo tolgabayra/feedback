@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, request
 from service.restaurant_auth_service import RestaurantAuthService
 from util.helper import Helper
 from decorators.jwt_required import jwt_required
-
+import os
+import jwt
 
 restaurant_auth_controller = Blueprint("restaurant_auth_controller", __name__)
 
@@ -52,7 +53,10 @@ def logout():
 @restaurant_auth_controller.route("/verify", methods=["POST"])
 @jwt_required
 def get_information():
-    return jsonify({"Message": "Okey"}), 200
+    auth_header = request.cookies.get('access_token')
+    if auth_header:
+        decoded_token = jwt.decode(auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])
+        return jsonify({"Message": "Okey", "Email": decoded_token["some"]["email"]}), 200
     
 
 
