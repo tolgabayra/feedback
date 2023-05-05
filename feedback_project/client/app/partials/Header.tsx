@@ -1,11 +1,29 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Menu, Button, Text } from '@mantine/core';
+import { IconSettings, IconSearch, IconPhoto, IconMessageCircle, IconTrash, IconArrowsLeftRight } from '@tabler/icons-react';
 
 
 function Header({
   sidebarOpen,
   setSidebarOpen
 }: any) {
+
+  const [email, setEmail] = useState("")
+
+  useEffect(() => {
+    const handleUser = async () => {
+      const res = await fetch("http://localhost:5000/api/v1/auth/verify", {
+        method: "POST",
+        credentials: "include",
+      });
+      let data = await res.json()
+      setEmail(data.Email)
+    }
+    handleUser()
+  }, [])
+
+  
 
   return (
     <header className="sticky top-0 bg-white border-b border-slate-200 z-30">
@@ -36,6 +54,19 @@ function Header({
           <div className="flex items-center">
 
             <hr className="w-px h-6 bg-slate-200 mx-3" />
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Button variant='outline'>      {email}   </Button>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>Application</Menu.Label>
+                <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
+                <Menu.Divider />
+
+                <Menu.Item color="red" icon={<IconTrash size={14} />}>Çıkış Yap</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </div>
 
         </div>
