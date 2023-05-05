@@ -3,7 +3,6 @@ from flask_cors import CORS
 from model import db
 from controller.restaurant_auth_controller import restaurant_auth_controller
 from controller.city_and_district_controller import city_and_district_controller
-import os
 
 app = Flask(__name__, static_folder="uploads")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://root:root@localhost/postgres'
