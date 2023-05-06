@@ -1,5 +1,4 @@
 'use client'
-import { Button } from "@mantine/core";
 import Link from "next/link";
 
 
@@ -9,8 +8,6 @@ export default function Home() {
             <section className="bg-white dark:bg-gray-900">
                 <nav className="container p-6 mx-auto lg:flex lg:justify-between lg:items-center">
                     <div className="flex items-center justify-between">
-
-
 
                     </div>
 
