@@ -13,17 +13,22 @@ function Header({
 
   useEffect(() => {
     const handleUser = async () => {
-      const res = await fetch("http://localhost:5000/api/v1/auth/verify", {
-        method: "POST",
-        credentials: "include",
-      });
-      let data = await res.json()
-      setEmail(data.Email)
+      try {
+        const res = await fetch("http://localhost:5000/api/v1/auth/verify", {
+          method: "POST",
+          credentials: "include",
+        });
+        let data = await res.json()
+        setEmail(data.Email)
+      } catch (error) {
+        console.log(error);
+      }
+
     }
     handleUser()
   }, [])
 
-  
+
 
   return (
     <header className="sticky top-0 bg-white border-b border-slate-200 z-30">
