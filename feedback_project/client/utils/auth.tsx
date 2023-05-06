@@ -1,6 +1,7 @@
 'use client'
 import { Button } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -10,6 +11,7 @@ function withAuth(WrappedComponent: any) {
         const [loading, setLoading] = useState(true);
         const [loggedIn, setLoggedIn] = useState(false);
         const [sessionExpired, setSessionExpired] = useState(false);
+        const [accessDenied, setAccessDenied] = useState(false)
 
         useEffect(() => {
             const verifyToken = async () => {
@@ -29,7 +31,7 @@ function withAuth(WrappedComponent: any) {
                         setSessionExpired(true);
                     }
                 } catch (error) {
-                    router.push("/signin")
+                    setAccessDenied(true)
                     setLoading(false);
                 }
             };
@@ -107,6 +109,15 @@ function withAuth(WrappedComponent: any) {
             return (
                 <div>
                     Yükleniyor...
+                </div>
+            )
+        }
+
+        if (accessDenied) {
+            return (
+                <div className="text-center text-xl">
+                    Erişim Yetkiniz Yok !
+                    <Link className="block hover:underline hover:text-blue-500" href="/signin">Geri Dön</Link>
                 </div>
             )
         }
