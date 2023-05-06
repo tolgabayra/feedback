@@ -29,7 +29,7 @@ function withAuth(WrappedComponent: any) {
                         setSessionExpired(true);
                     }
                 } catch (error) {
-                    setSessionExpired(true);
+                    router.push("/signin")
                     setLoading(false);
                 }
             };
