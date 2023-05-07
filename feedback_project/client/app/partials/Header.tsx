@@ -44,6 +44,7 @@ function Header({
         autoClose: 1500
       })
       setTimeout(() => {
+        localStorage.clear()
         router.push("/signin")
       },1500)
     }
