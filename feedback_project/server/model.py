@@ -4,28 +4,35 @@ from werkzeug.security import check_password_hash
 
 db = SQLAlchemy()
 
-
 """ İşletme ve işletme tipi """
 class Business(db.Model):
     __tablename__ = 'businesses'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(100), nullable=False)
-    phone_number = db.Column(db.String(20))
     email = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(500), nullable=False)
     website = db.Column(db.String(100))
+    activate = db.Column(db.Boolean, default=False)
+    province_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
+    district_id = db.Column(db.Integer, db.ForeignKey('districts.id'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
     business_type_id = db.Column(db.Integer, db.ForeignKey('business_types.id'), nullable=False)
     feedbacks = db.relationship('Feedback', backref='business_feedbacks', lazy=True)
+
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
 
     def to_dict(self):
         return {
             'id': self.id,
             'name': self.name,
             'address': self.address,
-            'phone_number': self.phone_number,
             'email': self.email,
+            'activate': self.activate,
             'website': self.website,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
@@ -39,7 +46,6 @@ class BusinessType(db.Model):
     name = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-    
     businesses = db.relationship('Business', backref='business_type', lazy=True)
 
     def to_dict(self):
@@ -51,7 +57,6 @@ class BusinessType(db.Model):
         }
     
 
-    
 
 
 class Feedback(db.Model):
@@ -62,8 +67,8 @@ class Feedback(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
     business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'))
     feedback_type_id = db.Column(db.Integer, db.ForeignKey('feedback_types.id'))
-    business = db.relationship('Business', backref='feedbacks')
-    feedback_type = db.relationship('FeedbackType', backref='feedbacks')
+    business = db.relationship('Business', backref='business_feedbacks')
+    feedback_type = db.relationship('FeedbackType', backref='feedback_type_feedbacks')
     
     def to_dict(self):
         return {
@@ -82,7 +87,7 @@ class FeedbackType(db.Model):
     name = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-    feedbacks = db.relationship('Feedback', backref='feedback_type', lazy=True)
+    feedbacks = db.relationship('Feedback', backref='feedback_type_feedbacks', lazy=True)
 
     def to_dict(self):
         return {
@@ -91,8 +96,6 @@ class FeedbackType(db.Model):
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
-
-
 
 
 """ Şehir ilçe modelleri """
