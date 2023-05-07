@@ -65,13 +65,10 @@ def get_information():
 @business_auth_controller.route("/refresh_token", methods=["POST"])
 def refresh_token():
     refresh_token = request.cookies.get('refresh_token')
-
     if not refresh_token:
         return jsonify({"message": "Refresh token not found"}), 400
     
-    access_token = request.cookies.get('access_token')
-
-    decoded_token = Helper.decode_token(access_token)
+    decoded_token = Helper.decode_token(refresh_token)
     print(decoded_token)
 
     new_access_token = Helper.generate_access_token(decoded_token)
