@@ -5,49 +5,84 @@ from werkzeug.security import check_password_hash
 db = SQLAlchemy()
 
 
-class Restaurant(db.Model):
-    __tablename__ = 'restaurants'
+""" İşletme ve işletme tipi """
+class Business(db.Model):
+    __tablename__ = 'businesses'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    address = db.Column(db.String(100))
-    province_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
-    district_id = db.Column(db.Integer, db.ForeignKey('districts.id'))
-    activate = db.Column(db.Boolean, default=False)
+    name = db.Column(db.String(50), nullable=False)
+    address = db.Column(db.String(100), nullable=False)
+    phone_number = db.Column(db.String(20))
     email = db.Column(db.String(100), nullable=False)
-    password = db.Column(db.String(500), nullable=False)
+    website = db.Column(db.String(100))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-    feedbacks = db.relationship('Feedback', backref='restaurant_feedbacks', lazy=True)
-    password = db.Column(db.String(100), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
-    
+    business_type_id = db.Column(db.Integer, db.ForeignKey('business_types.id'), nullable=False)
+    feedbacks = db.relationship('Feedback', backref='business_feedbacks', lazy=True)
 
     def to_dict(self):
         return {
             'id': self.id,
             'name': self.name,
             'address': self.address,
-            'province': self.province,
-            'activate': self.activate,
-            'district': self.district,
+            'phone_number': self.phone_number,
             'email': self.email,
+            'website': self.website,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'business_type': self.business_type.to_dict()
+        }
+    
+
+class BusinessType(db.Model):
+    __tablename__ = 'business_types'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    
+    businesses = db.relationship('Business', backref='business_type', lazy=True)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
+    
+
+    
 
 
+class Feedback(db.Model):
+    __tablename__ = 'feedbacks'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(200), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'))
+    feedback_type_id = db.Column(db.Integer, db.ForeignKey('feedback_types.id'))
+    business = db.relationship('Business', backref='feedbacks')
+    feedback_type = db.relationship('FeedbackType', backref='feedbacks')
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'business_id': self.business_id,
+            'feedback_type_id': self.feedback_type_id
+        }
 
 
-class FeedbackCategory(db.Model):
-    __tablename__ = 'feedback_categories'
+class FeedbackType(db.Model):
+    __tablename__ = 'feedback_types'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    feedbacks = db.relationship('Feedback', backref='feedback_type', lazy=True)
 
     def to_dict(self):
         return {
@@ -59,34 +94,8 @@ class FeedbackCategory(db.Model):
 
 
 
-class Feedback(db.Model):
-    __tablename__ = 'feedbacks'
-    id = db.Column(db.Integer, primary_key=True)
-    customer_name = db.Column(db.String(50))
-    content = db.Column(db.String(200))
-    is_proved = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-    category_id = db.Column(db.Integer, db.ForeignKey('feedback_categories.id'))
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'))
-    category = db.relationship('FeedbackCategory', backref='feedbacks')
-    restaurant = db.relationship('Restaurant', backref='restaurant_feedbacks')
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'customer_name': self.customer_name,
-            'content': self.content,
-            'is_proved': self.is_proved,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at,
-            'category_id': self.category_id,
-            'restaurant_id': self.restaurant_id
-        }
-    
-
+""" Şehir ilçe modelleri """
 
 class City(db.Model):
     __tablename__ = 'cities'
