@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, Button, Text } from '@mantine/core';
 import { IconSettings, IconTrash } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+import { notifications } from '@mantine/notifications';
 
 
 function Header({
@@ -10,6 +12,7 @@ function Header({
 }: any) {
 
   const [email, setEmail] = useState("")
+  const router = useRouter()
 
   useEffect(() => {
     const handleUser = async () => {
@@ -27,6 +30,25 @@ function Header({
     }
     handleUser()
   }, [])
+
+  const handleLogout = async () => {
+    const res = await fetch("http://localhost:5000/api/v1/auth/logout",{
+      method: "POST",
+      credentials: "include"
+    })
+    if (res.ok) {
+      notifications.show({
+        title: 'Başarılı !',
+        message: 'Çıkış yapılıyor...',
+        color: 'green',
+        autoClose: 1500
+      })
+      setTimeout(() => {
+        localStorage.clear()
+        router.push("/signin")
+      },1500)
+    }
+  }
 
 
 
@@ -69,7 +91,7 @@ function Header({
                 <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
                 <Menu.Divider />
 
-                <Menu.Item color="red" icon={<IconTrash size={14} />}>Çıkış Yap</Menu.Item>
+                <Menu.Item onClick={handleLogout} color="red" icon={<IconTrash size={14} />}>Çıkış Yap</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </div>

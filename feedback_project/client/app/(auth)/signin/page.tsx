@@ -27,7 +27,14 @@ export default function SignIn() {
           color: 'green',
         })
         router.push("/dashboard")
-      } else {
+      }else if(response.status === 403){
+        notifications.show({
+          title: 'Başarısız !',
+          message: 'Hesabınız henüz onaylanmadı.',
+          color: 'red',
+        })
+      } 
+      else {
         notifications.show({
           title: 'Başarısız !',
           message: 'Email veya parolanız yanlış.',
