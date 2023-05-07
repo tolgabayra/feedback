@@ -1,30 +1,30 @@
 from flask import Blueprint, jsonify, request
-from service.restaurant_auth_service import RestaurantAuthService
+from service.business_auth_service import BusinessAuthService
 from util.helper import Helper
 from decorators.jwt_required import jwt_required
 import os
 import jwt
 
-restaurant_auth_controller = Blueprint("restaurant_auth_controller", __name__)
+business_auth_controller = Blueprint("business_auth_controller", __name__)
 
 
-@restaurant_auth_controller.route("/login", methods=["POST"])
+@business_auth_controller.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
     email = data["email"]
     password = data["password"]
-
-    data = RestaurantAuthService.login(email, password)
+    data = BusinessAuthService.login(email, password)
     if data is None:
         return jsonify({"Message": "Invalid email or password"}), 401
-    
-    response = jsonify({"access_token": data["access_token"], "refresh_token": data["refresh_token"], "restaurant_id": data["restaurant_id"]})
+    if data["active"] is False:
+        return jsonify({"Message": "Your account has not been confirmed"}), 403
+    response = jsonify({"access_token": data["access_token"], "refresh_token": data["refresh_token"]})
     response.set_cookie("access_token", data["access_token"], httponly=True)
     response.set_cookie("refresh_token", data["refresh_token"], httponly=True)
     return response, 200
 
 
-@restaurant_auth_controller.route("/register", methods=["POST"])
+@business_auth_controller.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
     name = data["name"]
@@ -33,15 +33,17 @@ def register():
     password = data["password"]
     district_id = data["district_id"]
     city_id = data["province_id"]
+    business_type_id = data["business_type_id"]
 
-    if not all([name, address, email, password, district_id, city_id]):
+
+    if not all([name, address, email, password, district_id, city_id, business_type_id]):
         return jsonify({"Message": "Parameters is not correct"}), 400
     
-    restaurant = RestaurantAuthService.register(name, address, email, password, district_id, city_id)
+    BusinessAuthService.register(name, address, email, password, district_id, city_id, business_type_id)
     return jsonify({"Message": "Your restaurant account created is succesfull"}), 201
 
 
-@restaurant_auth_controller.route("/logout", methods=["POST"])
+@business_auth_controller.route("/logout", methods=["POST"])
 def logout():
     response = jsonify({"Message": "You are logged out"})
     response.delete_cookie("access_token")
@@ -50,7 +52,7 @@ def logout():
 
 
 
-@restaurant_auth_controller.route("/verify", methods=["POST"])
+@business_auth_controller.route("/verify", methods=["POST"])
 @jwt_required
 def get_information():
     auth_header = request.cookies.get('access_token')
@@ -60,7 +62,7 @@ def get_information():
     
 
 
-@restaurant_auth_controller.route("/refresh_token", methods=["POST"])
+@business_auth_controller.route("/refresh_token", methods=["POST"])
 def refresh_token():
     refresh_token = request.cookies.get('refresh_token')
 
