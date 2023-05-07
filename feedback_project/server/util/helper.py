@@ -8,8 +8,8 @@ class Helper:
     @staticmethod
     def generate_access_token(payload):
         return jwt.encode(
-            {"some": payload, "exp": int(time.time() + 600)},
-            os.getenv("JWT_SECRET_KEY"), algorithm="HS256")
+        {"some": payload, "exp": int(time.time() + 15)},
+        os.getenv("JWT_SECRET_KEY"), algorithm="HS256")
 
     @staticmethod
     def generate_refresh_token(payload):
@@ -23,6 +23,8 @@ class Helper:
     def decode_token(access_token):
         try:
             decode_token = jwt.decode(access_token, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])
+            print("Decoded token: ",decode_token)
+            
             return decode_token.get("some")
         except:
             return None

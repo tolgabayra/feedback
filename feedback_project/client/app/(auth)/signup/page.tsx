@@ -8,11 +8,18 @@ type City = {
   name: string
 }
 
+type BusinessType = {
+  id: number,
+  name: string
+}
+
 export default function SignUp() {
   const [cities, setCities] = useState([])
   const [district, setDistrict] = useState("")
   const [selectedCity, setSelectedCity] = useState("")
   const [selectedDistrict, setSelectedDistrict] = useState([])
+  const [selectedBusinessType, setSelectedBusinessType] = useState("")
+  const [businessTypes, setBusinessTypes] = useState([])
 
 
 
@@ -26,12 +33,15 @@ export default function SignUp() {
       .catch(err => {
         console.log(err);
       })
-
   }
 
   const citySelected = (e: any) => {
     setSelectedCity(e.target.value)
     handleGetDistrict(e.target.value)
+  }
+
+  const businessSelected = (e: any) => {
+    setSelectedBusinessType(e.target.value)
   }
 
 
@@ -50,6 +60,19 @@ export default function SignUp() {
         console.log(err);
       })
   }, [])
+
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v1/businesses/")
+      .then((res) => res.json())
+      .then((data) => {
+        setBusinessTypes(data.BusinesessTypes)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, [])
+
 
   useEffect(() => {
     console.log(cities);
@@ -80,6 +103,17 @@ export default function SignUp() {
                   <input id="address" type="text" className="form-input w-full text-gray-800" placeholder="İşletme Adresi" required />
                 </div>
               </div>
+              <div className="flex flex-wrap -mx-3 mb-4">
+                <div className="w-full px-3">
+                  <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="city">İşletme Tipi <span className="text-red-600">*</span></label>
+                  <select className='form-input w-full text-gray-800' id='business' value={selectedBusinessType} onChange={businessSelected}>
+                    <option selected>İşletme Tipi Seçin</option>
+                    {
+                      businessTypes.map((businessType: BusinessType) => <option key={businessType.id} value={businessType.id}> {businessType.name} </option>)
+                    }
+                  </select>
+                </div>
+              </div>
 
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
@@ -87,7 +121,6 @@ export default function SignUp() {
                   <input id="email" type="email" className="form-input w-full text-gray-800" placeholder="Email adresi" required />
                 </div>
               </div>
-
 
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
@@ -113,9 +146,6 @@ export default function SignUp() {
                   </select>
                 </div>
               </div>
-
-
-
 
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">

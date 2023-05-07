@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from service.city_and_district_service import CityAndDistrictService
+
 city_and_district_controller = Blueprint("city_and_district_controller", __name__)
 
 

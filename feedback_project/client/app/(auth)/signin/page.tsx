@@ -25,15 +25,18 @@ export default function SignIn() {
           title: 'Başarılı !',
           message: 'Giriş Yapılıyor...',
           color: 'green',
+          autoClose: 1500
         })
-        router.push("/dashboard")
-      }else if(response.status === 403){
+        setTimeout(() => {
+          router.push("/dashboard")
+        }, 1500)
+      } else if (response.status === 403) {
         notifications.show({
           title: 'Başarısız !',
           message: 'Hesabınız henüz onaylanmadı.',
           color: 'red',
         })
-      } 
+      }
       else {
         notifications.show({
           title: 'Başarısız !',
