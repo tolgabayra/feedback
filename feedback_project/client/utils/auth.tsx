@@ -18,7 +18,7 @@ function withAuth(WrappedComponent: any) {
                 try {
                     const res = await fetch("http://localhost:5000/api/v1/auth/verify", {
                         method: "POST",
-                        credentials: "include",
+                        credentials: "include"
                     });
                     if (res.ok) {
                         setLoggedIn(true);
@@ -69,8 +69,6 @@ function withAuth(WrappedComponent: any) {
 
 
         /*
-        
-        
         
          useEffect(() => {
              const intervalId = setInterval(() => {
