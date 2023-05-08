@@ -50,5 +50,5 @@ class FeedbackPageService:
         valid_feedback_pages = []
         for feedback_page in feedback_pages:
             if feedback_page.expire_time >= datetime.utcnow():
-                valid_feedback_pages.append(feedback_page)
+                valid_feedback_pages.append(feedback_page.to_dict())
         return valid_feedback_pages
