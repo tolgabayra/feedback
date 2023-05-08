@@ -39,7 +39,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }: any) {
   });
 
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded);
+    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
     const body = document.querySelector('body');
     if (sidebarExpanded && body) {
       body.classList.add('sidebar-expanded');
