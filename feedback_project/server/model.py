@@ -57,6 +57,26 @@ class BusinessType(db.Model):
         }
     
 
+class BusinessFeedbackPage(db.Model):
+    __tablename__ = 'business_feedback_pages'
+    id = db.Column(db.Integer, primary_key=True)
+    url_token = db.Column(db.String(36), nullable=False, unique=True)
+    expire_time = db.Column(db.DateTime, nullable=False)
+    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    business = db.relationship('Business', backref='feedback_pages')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'url_token': self.url_token,
+            'expire_time': self.expire_time,
+            'business_id': self.business_id,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
+
 
 
 class Feedback(db.Model):
