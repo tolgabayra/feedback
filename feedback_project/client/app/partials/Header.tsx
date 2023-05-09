@@ -32,7 +32,7 @@ function Header({
   }, [])
 
   const handleLogout = async () => {
-    const res = await fetch("http://localhost:5000/api/v1/auth/logout",{
+    const res = await fetch("http://localhost:5000/api/v1/auth/logout", {
       method: "POST",
       credentials: "include"
     })
@@ -46,7 +46,7 @@ function Header({
       setTimeout(() => {
         localStorage.clear()
         router.push("/signin")
-      },1500)
+      }, 1500)
     }
   }
 
@@ -88,7 +88,7 @@ function Header({
 
               <Menu.Dropdown>
                 <Menu.Label>Application</Menu.Label>
-                <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
+                <Menu.Item onClick={() => router.push("/dashboard/settings")} icon={<IconSettings size={14} />}>Settings</Menu.Item>
                 <Menu.Divider />
 
                 <Menu.Item onClick={handleLogout} color="red" icon={<IconTrash size={14} />}>Çıkış Yap</Menu.Item>

@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 
 function Sidebar({ sidebarOpen, setSidebarOpen }: any) {
@@ -118,34 +119,40 @@ function Sidebar({ sidebarOpen, setSidebarOpen }: any) {
             </h3>
             <ul className="mt-3">
               {/* Dashboard */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0`}>
-                <a
+              <li className='px-3 py-2 rounded-sm mb-0.5 last:mb-0 hover:underline'>
+                <Link
                   href="/dashboard"
                   className='text-slate-300'
                 >
                   <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path
-                        className={`fill-current ${'text-slate-400'
-                          }`}
-                        d="M12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0z"
-                      />
-                      <path
-                        className={`fill-current ${'text-slate-600'
-                          }`}
-                        d="M12 3c-4.963 0-9 4.037-9 9s4.037 9 9 9 9-4.037 9-9-4.037-9-9-9z"
-                      />
-                      <path
-                        className={`fill-current ${'text-slate-400'
-                          }`}
-                        d="M12 15c-1.654 0-3-1.346-3-3 0-.462.113-.894.3-1.285L6 6l4.714 3.301A2.973 2.973 0 0112 9c1.654 0 3 1.346 3 3s-1.346 3-3 3z"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-layout-dashboard" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M4 4h6v8h-6z"></path>
+                      <path d="M4 16h6v4h-6z"></path>
+                      <path d="M14 12h6v8h-6z"></path>
+                      <path d="M14 4h6v4h-6z"></path>
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       Dashboard
                     </span>
                   </div>
-                </a>
+                </Link>
+              </li>
+              <li className='px-3 py-2 rounded-sm mb-0.5 last:mb-0 hover:underline mt-3'>
+                <Link
+                  href="/dashboard/feedbacks"
+                  className='text-slate-300'
+                >
+                  <div className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-message-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1"></path>
+                    </svg>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Geri Bildirimler
+                    </span>
+                  </div>
+                </Link>
               </li>
 
             </ul>

@@ -105,7 +105,7 @@ function withAuth(WrappedComponent: any) {
 
         if (loading) {
             return (
-                <div>
+                <div className="text-center text-3xl mt-3 text-blue-500">
                     Yükleniyor...
                 </div>
             )
