@@ -45,6 +45,8 @@ def show_feedback(url_token: str):
     feedback = FeedbackPageService.show(url_token)
     if feedback:
         return jsonify({"Feedback": feedback}), 200
+    if feedback == False:
+        return jsonify({"Message": "Invalid Url"}), 400
     else:
         return jsonify({"Message": "Feedback not found"}), 404
 
