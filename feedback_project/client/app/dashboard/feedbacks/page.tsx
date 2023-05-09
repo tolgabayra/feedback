@@ -1,11 +1,9 @@
 'use client'
 
-import { Accordion, Button, Divider, SimpleGrid, ThemeIcon } from '@mantine/core'
-import { IconTrash } from '@tabler/icons-react'
-import Link from 'next/link'
-import { type } from 'os'
 import React, { useEffect, useState } from 'react'
-
+import QRCode from 'qrcode'
+import { Accordion, Button, Divider } from '@mantine/core'
+import Link from 'next/link'
 
 type FeedbackPage = {
   id: number,
@@ -14,7 +12,8 @@ type FeedbackPage = {
   expire_time: Date
 }
 
-export default function Feedbacks() {
+export default function Feedbacks({params}: any) {
+  const [qrData, setQRData] = useState('');
   const [feedbacks, setFeedbacks] = useState([])
   const [feedbackPages, setFeedbackPages] = useState([])
 
@@ -41,6 +40,17 @@ export default function Feedbacks() {
 
   }
 
+  const generateQRCode = async () => {
+  
+    const data = `http://localhost:3000/send-feedbacks/${params}`;
+    const qrCode = await QRCode.toDataURL(data);
+    setQRData(qrCode);
+  };
+
+  useEffect(() => {
+    console.log(params);
+    
+  },[])
 
   return (
     <div>
@@ -53,7 +63,15 @@ export default function Feedbacks() {
                 <Accordion>
                   <Accordion.Item value="customization">
                     <Accordion.Control> {feedbackPage.id}. Token </Accordion.Control>
-                    <Accordion.Panel><span className='text-blue-800'>Url Adresi: </span> <Link className='hover:underline hover:text-blue-600' href={`http://localhost:3000/send-feedbacks/${feedbackPage.url_token}`}>  {`http://localhost:3000/send-feedbacks/${feedbackPage.url_token}`} </Link>  </Accordion.Panel>
+                    <Accordion.Panel>
+                      <span className='text-blue-800'>Url Adresi: </span> <Link className='hover:underline hover:text-blue-600' href={`http://localhost:3000/send-feedbacks/${feedbackPage.url_token}`}>  {`http://localhost:3000/send-feedbacks/${feedbackPage.url_token}`} </Link>
+                      <Button onClick={generateQRCode} variant='outline' color='green' compact >Qr Code Oluştur</Button>
+                      {qrData ? (
+                        <img src={qrData} alt="QR Code" />
+                      ) : (
+                        <p>...</p>
+                      )}
+                    </Accordion.Panel>
                   </Accordion.Item>
                 </Accordion>
               ))

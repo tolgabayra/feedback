@@ -38,7 +38,7 @@ class FeedbackPageService:
             return None
         # Check if the feedback page has expired
         if feedback_page.expire_time < datetime.utcnow():
-            return None
+            return False
         
         return feedback_page.to_dict()
     
