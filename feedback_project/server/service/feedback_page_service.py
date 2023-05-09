@@ -32,16 +32,15 @@ class FeedbackPageService:
             
      
     @staticmethod
-    def show(feedback_page_id):
-        feedback_page = BusinessFeedbackPage.query.get(feedback_page_id)
+    def show(url_token: str):
+        feedback_page = BusinessFeedbackPage.query.filter_by(url_token=url_token).first()
         if not feedback_page:
             return None
-
         # Check if the feedback page has expired
         if feedback_page.expire_time < datetime.utcnow():
             return None
         
-        return feedback_page
+        return feedback_page.to_dict()
     
 
     @staticmethod
