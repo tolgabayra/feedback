@@ -43,6 +43,7 @@ def list_feedbacks():
 @feedback_page_controller.route("/<string:url_token>", methods=["GET"])
 def show_feedback(url_token: str):
     feedback = FeedbackPageService.show(url_token)
+    print(feedback)
     if feedback:
         return jsonify({"Feedback": feedback}), 200
     if feedback == False:

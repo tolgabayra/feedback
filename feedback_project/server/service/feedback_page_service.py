@@ -32,7 +32,7 @@ class FeedbackPageService:
             
      
     @staticmethod
-    def show(url_token: str):
+    def show(url_token):
         feedback_page = BusinessFeedbackPage.query.filter_by(url_token=url_token).first()
         if not feedback_page:
             return None
@@ -48,6 +48,5 @@ class FeedbackPageService:
         feedback_pages = BusinessFeedbackPage.query.filter_by(business_id=business_id).all()
         valid_feedback_pages = []
         for feedback_page in feedback_pages:
-            if feedback_page.expire_time >= datetime.utcnow():
-                valid_feedback_pages.append(feedback_page.to_dict())
+            valid_feedback_pages.append(feedback_page.to_dict())
         return valid_feedback_pages
