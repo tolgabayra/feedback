@@ -4,29 +4,47 @@ import React, { useEffect, useState } from 'react'
 import QRCode from 'qrcode'
 import { Accordion, Button, Divider } from '@mantine/core'
 import Link from 'next/link'
+import { notifications } from '@mantine/notifications'
 
 type FeedbackPage = {
   id: number,
   url_token: string,
   created_at: Date,
-  expire_time: Date
+  expire_time: any
+}
+function formatRemainingTime(date: any) {
+  let expireTime: any = new Date(date);
+  let now: any = new Date();
+  let diffInMs = expireTime - now;
+  const diffInSec = Math.round(diffInMs / 1000);
+  const days = Math.floor(diffInSec / 86400);
+  const hours = Math.floor((diffInSec % 86400) / 3600);
+  const minutes = Math.floor((diffInSec % 3600) / 60);
+
+  return `${days} gün, ${hours} saat ve ${minutes} dakika`;
 }
 
-export default function Feedbacks({params}: any) {
+
+
+
+
+export default function Feedbacks({ props }: any) {
+  const now = new Date();
   const [qrData, setQRData] = useState('');
   const [feedbacks, setFeedbacks] = useState([])
   const [feedbackPages, setFeedbackPages] = useState([])
 
 
+  const handleGetFeedbackPage = async () => {
+    const res = await fetch("http://localhost:5000/api/v1/feedback_pages", {
+      method: "GET",
+      credentials: "include"
+    })
+    const data = await res.json()
+    setFeedbackPages(data.Feedbacks)
+  }
+
   useEffect(() => {
-    const handleGetFeedbackPage = async () => {
-      const res = await fetch("http://localhost:5000/api/v1/feedback_pages", {
-        method: "GET",
-        credentials: "include"
-      })
-      const data = await res.json()
-      setFeedbackPages(data.Feedbacks)
-    }
     handleGetFeedbackPage();
   }, [])
 
@@ -36,40 +54,63 @@ export default function Feedbacks({params}: any) {
       method: "POST",
       credentials: "include"
     })
-    const data = await res.json()
+    if (res.ok) {
+      notifications.show({
+        title: 'Başarılı',
+        message: 'Yeni Geri Bildirim Sayfanız Oluşturuldu',
+        color: 'green',
+        autoClose: 1500
+      })
+      handleGetFeedbackPage()
+    }
 
   }
 
-  const generateQRCode = async () => {
-  
-    const data = `http://localhost:3000/send-feedbacks/${params}`;
+  const generateQRCode = async (url: any) => {
+    console.log(url);
+    const data = `http://localhost:3000/send-feedbacks/${url}}`;
     const qrCode = await QRCode.toDataURL(data);
     setQRData(qrCode);
   };
 
-  useEffect(() => {
-    console.log(params);
-    
-  },[])
+
+
+  const handleDeleteFeedbackPage = async (id: any) => {
+    const res = await fetch(`http://localhost:5000/api/v1/feedback_pages/${id}`, {
+      method: "DELETE",
+      credentials: "include"
+    })
+    if (res.ok) {
+      notifications.show({
+        title: 'Silindi',
+        message: 'İşlem Başarılı',
+        color: 'green',
+        autoClose: 1500
+      })
+      handleGetFeedbackPage()
+    }
+  }
 
   return (
     <div>
       <div className='bg-gray-50'>
         <div className='p-3'>
           <div className='mb-10'>
-            <Button mb="xl" ml="md" variant='outline'>Oluştur</Button>
+            <Button onClick={handleCreateFeedbackPage} mb="xl" ml="md" variant='outline'>Oluştur</Button>
             {
               feedbackPages.map((feedbackPage: FeedbackPage) => (
-                <Accordion>
+                <Accordion key={feedbackPage.id}>
                   <Accordion.Item value="customization">
-                    <Accordion.Control> {feedbackPage.id}. Token </Accordion.Control>
+                    <Button onClick={(e) => handleDeleteFeedbackPage(feedbackPage.id)} className='ml-4 mt-1 w-10' variant='outline' color='red' compact >Sil</Button>
+                    <Accordion.Control> {feedbackPage.id}. Token | {formatRemainingTime(feedbackPage.expire_time)} </Accordion.Control>
                     <Accordion.Panel>
                       <span className='text-blue-800'>Url Adresi: </span> <Link className='hover:underline hover:text-blue-600' href={`http://localhost:3000/send-feedbacks/${feedbackPage.url_token}`}>  {`http://localhost:3000/send-feedbacks/${feedbackPage.url_token}`} </Link>
-                      <Button onClick={generateQRCode} variant='outline' color='green' compact >Qr Code Oluştur</Button>
+                      <Button onClick={(e) => generateQRCode(feedbackPage.url_token)} variant='outline' color='green' compact >Qr Kodunuzu Açın</Button>
+
                       {qrData ? (
                         <img src={qrData} alt="QR Code" />
                       ) : (
-                        <p>...</p>
+                        <p className='text-sm text-gray-400'>Qr Kodunuz Süresi Bitene Kadar Devam edecektir</p>
                       )}
                     </Accordion.Panel>
                   </Accordion.Item>
