@@ -12,6 +12,7 @@ type FeedbackPage = {
   created_at: Date,
   expire_time: any
 }
+
 function formatRemainingTime(date: any) {
   let expireTime: any = new Date(date);
   let now: any = new Date();
@@ -23,9 +24,6 @@ function formatRemainingTime(date: any) {
 
   return `${days} gün, ${hours} saat ve ${minutes} dakika`;
 }
-
-
-
 
 
 export default function Feedbacks({ props }: any) {
@@ -73,6 +71,20 @@ export default function Feedbacks({ props }: any) {
     setQRData(qrCode);
   };
 
+  const downloadQRCode = async (urlToken: any) => {
+    const qrCode = await QRCode.toDataURL(urlToken);
+    const blob = await fetch(qrCode).then((res) => res.blob());
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "qr-code.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+
 
 
   const handleDeleteFeedbackPage = async (id: any) => {
@@ -96,7 +108,7 @@ export default function Feedbacks({ props }: any) {
       <div className='bg-gray-50'>
         <div className='p-3'>
           <div className='mb-10'>
-            <Button onClick={handleCreateFeedbackPage} mb="xl" ml="md" variant='outline'>Oluştur</Button>
+            <Button onClick={handleCreateFeedbackPage} mb="xl" ml="md" variant='outline'>Token Oluştur</Button>
             {
               feedbackPages.map((feedbackPage: FeedbackPage) => (
                 <Accordion key={feedbackPage.id}>
@@ -107,10 +119,17 @@ export default function Feedbacks({ props }: any) {
                       <span className='text-blue-800'>Url Adresi: </span> <Link className='hover:underline hover:text-blue-600' href={`http://localhost:3000/send-feedbacks/${feedbackPage.url_token}`}>  {`http://localhost:3000/send-feedbacks/${feedbackPage.url_token}`} </Link>
                       <Button onClick={(e) => generateQRCode(feedbackPage.url_token)} variant='outline' color='green' compact >Qr Kodunuzu Açın</Button>
 
-                      {qrData ? (
+                      {qrData ? (<>
                         <img src={qrData} alt="QR Code" />
+                        <Button onClick={() => downloadQRCode(feedbackPage.url_token)} variant='outline' color='violet' compact>İndir</Button>
+
+                      </>
+
                       ) : (
-                        <p className='text-sm text-gray-400'>Qr Kodunuz Süresi Bitene Kadar Devam edecektir</p>
+                        <>
+                          <p className='text-sm text-gray-400 mb-1'>Qr kodunuz, süresi bitene kadar devam edecektir</p>
+
+                        </>
                       )}
                     </Accordion.Panel>
                   </Accordion.Item>
