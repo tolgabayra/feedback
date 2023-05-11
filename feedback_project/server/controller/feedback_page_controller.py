@@ -43,7 +43,6 @@ def list_feedbacks():
 @feedback_page_controller.route("/<string:url_token>", methods=["GET"])
 def show_feedback(url_token: str):
     feedback = FeedbackPageService.show(url_token)
-    print(feedback)
     if feedback:
         return jsonify({"Feedback": feedback}), 200
     if feedback == False:
@@ -51,3 +50,8 @@ def show_feedback(url_token: str):
     else:
         return jsonify({"Message": "Feedback not found"}), 404
 
+
+@feedback_page_controller.route("/list_types", methods=["GET"])
+def list_feedbacktypes():
+    type_list = FeedbackPageService.list_types()
+    return jsonify({"type_list": type_list})

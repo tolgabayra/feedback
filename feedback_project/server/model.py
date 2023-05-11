@@ -73,6 +73,8 @@ class BusinessFeedbackPage(db.Model):
             'url_token': self.url_token,
             'expire_time': self.expire_time,
             'business_id': self.business_id,
+            "business_name": self.business.name,
+            "business_address": self.business.address,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }

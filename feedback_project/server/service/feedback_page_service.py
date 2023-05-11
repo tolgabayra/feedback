@@ -1,4 +1,5 @@
 from model import BusinessFeedbackPage
+from model import FeedbackType
 from model import db
 from datetime import datetime, timedelta
 import uuid
@@ -50,3 +51,15 @@ class FeedbackPageService:
         for feedback_page in feedback_pages:
             valid_feedback_pages.append(feedback_page.to_dict())
         return valid_feedback_pages
+    
+
+    @staticmethod
+    def list_types():
+        types = FeedbackType.query.all()
+        types_list = []
+        for type in types:
+            types_list.append({
+                "id": type.id,
+                "name": type.name
+            })
+        return types_list
