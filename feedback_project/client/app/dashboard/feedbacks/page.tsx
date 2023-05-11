@@ -86,7 +86,6 @@ export default function Feedbacks({ props }: any) {
 
 
 
-
   const handleDeleteFeedbackPage = async (id: any) => {
     const res = await fetch(`http://localhost:5000/api/v1/feedback_pages/${id}`, {
       method: "DELETE",
@@ -102,6 +101,12 @@ export default function Feedbacks({ props }: any) {
       handleGetFeedbackPage()
     }
   }
+
+  useEffect(() => {
+    const getFeedbacks = async () => {
+      const res = fetch("http://localhost:5000/api/v1/feedbacks")
+    }
+  },[])
 
   return (
     <div>
