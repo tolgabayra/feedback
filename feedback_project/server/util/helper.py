@@ -29,7 +29,6 @@ class Helper:
         except:
             return None
         
-
     @staticmethod
     def generate_hash_with_qr(qr_code):
         return hashlib.sha256(qr_code.encode()).digest()
