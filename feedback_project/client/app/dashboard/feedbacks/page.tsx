@@ -101,12 +101,33 @@ export default function Feedbacks({ props }: any) {
       handleGetFeedbackPage()
     }
   }
-
+  const getFeedbacks = async () => {
+    const res = await fetch("http://localhost:5000/api/v1/feedbacks", {
+      method: "GET",
+      credentials: "include"
+    })
+    const data = await res.json()
+    setFeedbacks(data.Feedbacks)
+  }
   useEffect(() => {
-    const getFeedbacks = async () => {
-      const res = fetch("http://localhost:5000/api/v1/feedbacks")
+    getFeedbacks()
+  }, [])
+
+  const handleDeleteFeedback = async (id: number) => {
+    const res = await fetch(`http://localhost:5000/api/v1/feedbacks/${id}`, {
+      method: "DELETE",
+      credentials: "include"
+    })
+    if (res.ok) {
+      notifications.show({
+        title: 'Silindi',
+        message: 'İşlem Başarılı',
+        color: 'green',
+        autoClose: 1500
+      })
+      getFeedbacks()
     }
-  },[])
+  }
 
   return (
     <div>
@@ -146,28 +167,33 @@ export default function Feedbacks({ props }: any) {
           <Divider size="xs" />
           <div className="container mt-4 mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              <div className="card m-2 border border-gray-400 rounded-sm hover:shadow-md hover:border-opacity-50 transform hover:-translate-y-1 transition-all duration-200">
-                <Button className='ml-1 mt-1 w-10' variant="outline" color="red" radius="xs" size="xs" compact>
-                  Sil
-                </Button>
-                <div className="m-3">
+              {
+                feedbacks.map((feedback: any) => (
+                  <div key={feedback.id} className="card m-2 border border-gray-400 rounded-sm hover:shadow-md hover:border-opacity-50 transform hover:-translate-y-1 transition-all duration-200">
+                    <Button onClick={(e) => handleDeleteFeedback(feedback.id)} className='ml-1 mt-1 w-10' variant="outline" color="red" radius="xs" size="xs" compact>
+                      Sil
+                    </Button>
+                    <div className="m-3">
 
-                  <h2 className="text-lg mb-2">Harika Tatlı
-                    <span className="text-sm text-teal-800 font-mono bg-teal-100 inline rounded-sm px-3 mt-1 align-top float-right animate-pulse">Tag</span>
-                  </h2>
-                  <Divider mb="xs" />
-                  <p className="font-light cursor-text font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200">Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds.</p>
-                </div>
-                <div>
-                  <Divider />
+                      <h2 className="text-lg mb-2"> Geri bildirim
+                        <span className="text-sm text-teal-800 font-mono bg-teal-100 inline rounded-sm px-3 mt-1 align-top float-right animate-pulse"> {feedback.feedback_type_id} </span>
+                      </h2>
+                      <Divider mb="xs" />
+                      <p className="font-light cursor-text font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200"> {feedback.content}  </p>
+                    </div>
+                    <div>
+                      <Divider />
 
-                  <p className='ml-3 text-sm'>
-                    2022 5 Mayıs 18:56
-                  </p>
-                </div>
+                      <p className='ml-3 text-sm'>
+                        {feedback.created_at}
+                      </p>
+                    </div>
 
 
-              </div>
+                  </div>
+
+                ))
+              }
 
             </div>
           </div>
