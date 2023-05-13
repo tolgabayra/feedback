@@ -31,3 +31,13 @@ def list_feedback():
     id = decoded_token["some"]["business_id"]
     feedbacks = FeedbackService.list(business_id=id)
     return jsonify({"Feedbacks":  feedbacks}), 200
+
+
+
+@feedback_controller.route("/count", methods=["GET"])
+def feedback_count_list():
+    count = FeedbackService.feedback_count()
+    if count:
+        return jsonify({"counts": count, "total": count["Total"]}), 200
+    else:
+        return jsonify({"Message": "Not found"}), 404

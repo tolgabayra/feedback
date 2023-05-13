@@ -1,6 +1,6 @@
 from model import Feedback
 from model import db
-
+from model import FeedbackType
 
 class FeedbackService:
 
@@ -39,3 +39,14 @@ class FeedbackService:
             return True
         else:
             return False
+    
+
+    @staticmethod
+    def feedback_count():
+        total_count = Feedback.query.count() # Tüm geri bildirimlerin sayısını hesapla
+        feedback_types = FeedbackType.query.all() # Tüm geri bildirim tiplerini al
+        result = {"Total": total_count} # Toplam geri bildirim sayısını "Total" anahtarında sakla
+        for feedback_type in feedback_types:
+            count = Feedback.query.filter_by(feedback_type_id=feedback_type.id).count() # Her tipteki geri bildirimlerin sayısını hesapla
+            result[feedback_type.name] = count # Geri bildirim tipi adı ve sayısı sözlükte saklanacak
+        return result
