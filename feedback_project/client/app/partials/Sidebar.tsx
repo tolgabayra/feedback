@@ -40,13 +40,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }: any) {
   });
 
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
-    const body = document.querySelector('body');
-    if (sidebarExpanded && body) {
-      body.classList.add('sidebar-expanded');
-    } else {
-      body?.classList.remove('sidebar-expanded');
+    if (sidebarExpanded !== null && sidebarExpanded !== undefined) {
+      localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
+      const body = document.querySelector('body');
+      if (sidebarExpanded && body) {
+        body?.classList.add('sidebar-expanded');
+      } else {
+        body?.classList.remove('sidebar-expanded');
+      }
     }
+
   }, [sidebarExpanded]);
 
   return (
