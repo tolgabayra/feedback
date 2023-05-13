@@ -27,7 +27,6 @@ function formatRemainingTime(date: any) {
 
 
 export default function Feedbacks({ props }: any) {
-  const now = new Date();
   const [qrData, setQRData] = useState('');
   const [feedbacks, setFeedbacks] = useState([])
   const [feedbackPages, setFeedbackPages] = useState([])
@@ -181,7 +180,6 @@ export default function Feedbacks({ props }: any) {
                         Sil
                       </Button>
                       <div className="m-3">
-
                         <h2 className="text-lg mb-2"> Geri bildirim
                           <span className={`text-sm text-gray-100 font-mono ${colorClasses[feedback.feedback_type_id]} inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}> {feedback.feedback_type_name} </span>
                         </h2>
@@ -190,13 +188,10 @@ export default function Feedbacks({ props }: any) {
                       </div>
                       <div>
                         <Divider />
-
                         <p className='ml-3 text-sm mt-1'>
                           {feedback.created_at}
                         </p>
                       </div>
-
-
                     </div>
 
                   )
