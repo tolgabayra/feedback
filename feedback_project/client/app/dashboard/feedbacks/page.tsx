@@ -168,31 +168,39 @@ export default function Feedbacks({ props }: any) {
           <div className="container mt-4 mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {
-                feedbacks.map((feedback: any) => (
-                  <div key={feedback.id} className="card m-2 border border-gray-400 rounded-sm hover:shadow-md hover:border-opacity-50 transform hover:-translate-y-1 transition-all duration-200">
-                    <Button onClick={(e) => handleDeleteFeedback(feedback.id)} className='ml-1 mt-1 w-10' variant="outline" color="red" radius="xs" size="xs" compact>
-                      Sil
-                    </Button>
-                    <div className="m-3">
+                feedbacks.map((feedback: any) => {
+                  const colorClasses: any = {
+                    1: "bg-yellow-600",
+                    2: "bg-blue-600",
+                    3: "bg-red-600",
+                  }
 
-                      <h2 className="text-lg mb-2"> Geri bildirim
-                        <span className="text-sm text-teal-800 font-mono bg-teal-100 inline rounded-sm px-3 mt-1 align-top float-right animate-pulse"> {feedback.feedback_type_id} </span>
-                      </h2>
-                      <Divider mb="xs" />
-                      <p className="font-light cursor-text font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200"> {feedback.content}  </p>
+                  return (
+                    <div key={feedback.id} className="card m-2 p-1 border border-gray-400 rounded-sm hover:shadow-md hover:border-opacity-50 transform hover:-translate-y-1 transition-all duration-200">
+                      <Button onClick={(e) => handleDeleteFeedback(feedback.id)} className='ml-1 mt-1 w-10' variant="outline" color="red" radius="xs" size="xs" compact>
+                        Sil
+                      </Button>
+                      <div className="m-3">
+
+                        <h2 className="text-lg mb-2"> Geri bildirim
+                          <span className={`text-sm text-gray-100 font-mono ${colorClasses[feedback.feedback_type_id]} inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}> {feedback.feedback_type_name} </span>
+                        </h2>
+                        <Divider mb="xs" />
+                        <p className="font-light cursor-text font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200"> {feedback.content}  </p>
+                      </div>
+                      <div>
+                        <Divider />
+
+                        <p className='ml-3 text-sm mt-1'>
+                          {feedback.created_at}
+                        </p>
+                      </div>
+
+
                     </div>
-                    <div>
-                      <Divider />
 
-                      <p className='ml-3 text-sm'>
-                        {feedback.created_at}
-                      </p>
-                    </div>
-
-
-                  </div>
-
-                ))
+                  )
+                })
               }
 
             </div>

@@ -25,7 +25,8 @@ class FeedbackService:
                 "id": feedback.id,
                 "content": feedback.content,
                 "created_at": feedback.created_at,
-                "feedback_type_id": feedback.feedback_type_id
+                "feedback_type_id": feedback.feedback_type_id,
+                "feedback_type_name": feedback.feedback_type.name
             })
         return feedback_list
     
