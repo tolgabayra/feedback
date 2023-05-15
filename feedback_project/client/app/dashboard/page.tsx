@@ -1,6 +1,8 @@
 'use client'
-import { Grid } from '@mantine/core'
 import React, { useEffect, useState } from 'react'
+import Chart1 from '../partials/dashboard/Chart1'
+import Chart2 from '../partials/dashboard/Chart2'
+import { Divider } from '@mantine/core'
 
 type Counts = {
   Tebrik: number,
@@ -66,6 +68,18 @@ export default function page() {
           </div>
         </div>
       </div>
+
+
+
+      <div className='mt-10 xl:px-16'>
+        <h3 className='text-xl'>Ay a bağlı olarak Geri Bildirimler</h3>
+        <Divider my="xs" label="Label on the left" />
+        <Chart1 />
+
+      </div>
+
+
+
 
     </div>
   )
