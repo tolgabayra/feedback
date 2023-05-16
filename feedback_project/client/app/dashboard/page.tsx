@@ -13,8 +13,8 @@ type Counts = {
 
 export default function page() {
   const [totalFeedback, setTotalFeedback] = useState(0);
-  const [counts, setCounts] = useState<Counts>();
-
+  const [counts, setCounts] = useState<Counts>({ Tebrik: 0, Öneri: 0, İstek: 0, Şikayet: 0 });
+  
   useEffect(() => {
     const getFeedbackCounts = async () => {
       const res = await fetch('http://localhost:5000/api/v1/feedbacks/count', {
@@ -92,7 +92,7 @@ export default function page() {
         <div className="mt-10 xl:px-16 w-2/3 pl-4">
           <h3 className="text-xl">Ay a bağlı olarak Geri Bildirimler</h3>
           <Divider my="xs" label="Label on the left" />
-          <Chart1 />
+          <Chart1 props={counts} />
         </div>
       </div>
     </div>

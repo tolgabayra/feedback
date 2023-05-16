@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Header from '../partials/Header';
 import Sidebar from '../partials/Sidebar';
-import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
 import withAuth from '@/utils/auth';
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
