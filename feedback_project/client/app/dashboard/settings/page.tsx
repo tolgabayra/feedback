@@ -2,9 +2,7 @@
 import { Divider } from '@mantine/core';
 import React from 'react';
 
-type Props = {};
-
-export default function Settings({}: Props) {
+export default function Settings() {
   return (
     <div>
       <div className="max-w-sm mx-auto px-4 sm:px-6">
