@@ -67,6 +67,10 @@ class BusinessFeedbackPage(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
+    @staticmethod
+    def can_create_feeback_page(id):
+        return BusinessFeedbackPage.query.filter_by(business_id = id).count() < 3
+
     def to_dict(self):
         return {
             'id': self.id,

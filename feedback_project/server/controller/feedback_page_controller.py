@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from service.feedback_page_service import FeedbackPageService
 from decorators.jwt_required import jwt_required
+from model import BusinessFeedbackPage
 import jwt
 import os
 
@@ -13,6 +14,10 @@ def generate_feedback_page():
     auth_header = request.cookies.get('access_token')
     decoded_token = jwt.decode(auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])
     id = decoded_token["some"]["business_id"]
+
+    if not BusinessFeedbackPage.can_create_feeback_page(id):
+        return ({"Message": "You can not create page anymore"}), 400
+
     FeedbackPageService.create(id)
     return jsonify({"Message": "Created"}), 201
 
