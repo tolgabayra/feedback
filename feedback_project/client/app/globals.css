@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @import '../css/additional-styles/utility-patterns.css';
 @import '../css/additional-styles/range-slider.css';
 @import '../css/additional-styles/toggle-switch.css';
