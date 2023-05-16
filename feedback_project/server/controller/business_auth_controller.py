@@ -18,7 +18,9 @@ def login():
         return jsonify({"Message": "Invalid email or password"}), 401
     if data["active"] is False:
         return jsonify({"Message": "Your account has not been confirmed"}), 403
-    response = jsonify({"access_token": data["access_token"], "refresh_token": data["refresh_token"]})
+    response = jsonify(
+        {"access_token": data["access_token"], "refresh_token": data["refresh_token"]}
+    )
     response.set_cookie("access_token", data["access_token"], httponly=True)
     response.set_cookie("refresh_token", data["refresh_token"], httponly=True)
     return response, 200
@@ -35,11 +37,14 @@ def register():
     city_id = data["province_id"]
     business_type_id = data["business_type_id"]
 
-
-    if not all([name, address, email, password, district_id, city_id, business_type_id]):
+    if not all(
+        [name, address, email, password, district_id, city_id, business_type_id]
+    ):
         return jsonify({"Message": "Parameters is not correct"}), 400
-    
-    BusinessAuthService.register(name, address, email, password, district_id, city_id, business_type_id)
+
+    BusinessAuthService.register(
+        name, address, email, password, district_id, city_id, business_type_id
+    )
     return jsonify({"Message": "Your restaurant account created is succesfull"}), 201
 
 
@@ -51,23 +56,26 @@ def logout():
     return response, 200
 
 
-
 @business_auth_controller.route("/verify", methods=["POST"])
 @jwt_required
 def get_information():
-    auth_header = request.cookies.get('access_token')
+    auth_header = request.cookies.get("access_token")
     if auth_header:
-        decoded_token = jwt.decode(auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])
-        return jsonify({"Message": "Okey", "Email": decoded_token["some"]["email"]}), 200
-    
+        decoded_token = jwt.decode(
+            auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"]
+        )
+        return (
+            jsonify({"Message": "Okey", "Email": decoded_token["some"]["email"]}),
+            200,
+        )
 
 
 @business_auth_controller.route("/refresh_token", methods=["POST"])
 def refresh_token():
-    refresh_token = request.cookies.get('refresh_token')
+    refresh_token = request.cookies.get("refresh_token")
     if not refresh_token:
         return jsonify({"message": "Refresh token not found"}), 400
-    
+
     decoded_token = Helper.decode_token(refresh_token)
     print(decoded_token)
 
@@ -77,6 +85,26 @@ def refresh_token():
         return jsonify({"message": "Invalid refresh token"}), 400
 
     response = jsonify({"access_token": new_access_token})
-    response.set_cookie('access_token', new_access_token, httponly=True)
+    response.set_cookie("access_token", new_access_token, httponly=True)
 
     return response, 200
+
+
+@business_auth_controller.route("/change_password", methods=["POST"])
+def change_password():
+    data = request.get_json()
+    current_password = data["current_password"]
+    new_password = data["new_password"]
+    auth_header = request.cookies.get("access_token")
+    if auth_header:
+        decoded_token = jwt.decode(
+            auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"]
+        )
+        email = decoded_token["some"]["email"]
+        success = BusinessAuthService.change_password(
+            email, current_password, new_password
+        )
+        if success:
+            return jsonify({"Message": "Password changed successful"}), 200
+        else:
+            return jsonify({"Message": "Invalid email or password"}), 400
