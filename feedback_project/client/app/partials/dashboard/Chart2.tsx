@@ -28,7 +28,5 @@ export default function Chart2({ props }: any) {
       },
     ],
   };
-  console.log(props);
-
   return <Doughnut data={updatedData} />;
 }
