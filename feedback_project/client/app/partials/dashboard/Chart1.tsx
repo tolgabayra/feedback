@@ -35,18 +35,19 @@ const labels = [
   'Aralık',
 ];
 
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: 'Toplam Bildirim',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 5, 2, 20, 30, 45, 40, 10, 30, 50, 100],
-    },
-  ],
-};
 
-export default function Chart1() {
+
+export default function Chart1({ props }: any) {
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Toplam Bildirim',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [0, 10, 5, 2, 20, 30, 45, 40, 10, 30, 50, 100],
+      },
+    ],
+  };
   return <Line height={30} width={100} data={data} />;
 }
