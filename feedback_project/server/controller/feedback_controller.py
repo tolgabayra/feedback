@@ -41,3 +41,9 @@ def feedback_count_list():
         return jsonify({"counts": count, "total": count["Total"]}), 200
     else:
         return jsonify({"Message": "Not found"}), 404
+    
+
+@feedback_controller.route("/count_with_date", methods=["GET"])
+def feedback_count_date_list():
+    count_result = FeedbackService.feedback_count_with_dates()
+    return jsonify(count_result), 200

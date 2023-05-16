@@ -50,3 +50,18 @@ class FeedbackService:
             count = Feedback.query.filter_by(feedback_type_id=feedback_type.id).count() # Her tipteki geri bildirimlerin sayısını hesapla
             result[feedback_type.name] = count # Geri bildirim tipi adı ve sayısı sözlükte saklanacak
         return result
+    
+
+
+    @staticmethod
+    def feedback_count_with_dates():
+        total_count = Feedback.query.count() # Tüm geri bildirimlerin sayısını hesapla
+        feedback_types = FeedbackType.query.all() # Tüm geri bildirim tiplerini al
+        result = {"Total": total_count} # Toplam geri bildirim sayısını "Total" anahtarında sakla
+        for feedback_type in feedback_types:
+            count = Feedback.query.filter_by(feedback_type_id=feedback_type.id).count() # Her tipteki geri bildirimlerin sayısını hesapla
+            result[feedback_type.name] = {
+                "Count": count,
+                "Dates": [feedback.created_at.strftime("%Y-%m-%d") for feedback in Feedback.query.filter_by(feedback_type_id=feedback_type.id).all()]
+            } # Geri bildirim tipi adı ve sayısı sözlükte saklanacak, aynı zamanda oluşturma tarihlerini de listeye ekliyoruz
+        return result
