@@ -1,8 +1,7 @@
-'use client'
+'use client';
 
-import { LoadingOverlay } from '@mantine/core'
-import React from 'react'
-
+import { LoadingOverlay } from '@mantine/core';
+import React from 'react';
 
 export default function Loading() {
   return (
@@ -12,5 +11,5 @@ export default function Loading() {
       overlayColor="#c5c5c5"
       visible
     />
-  )
+  );
 }
