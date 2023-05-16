@@ -22,7 +22,6 @@ export default function page() {
         credentials: 'include',
       });
       const data = await res.json();
-      console.log(data);
       if (res.ok) {
         setTotalFeedback(data.total);
         setCounts(data.counts);
@@ -83,10 +82,18 @@ export default function page() {
         </div>
       </div>
 
-      <div className="mt-10 xl:px-16">
-        <h3 className="text-xl">Ay a bağlı olarak Geri Bildirimler</h3>
-        <Divider my="xs" label="Label on the left" />
-        <Chart1 />
+      <div className="flex mt-9 p-3">
+        <div className="mt-10 xl:px-16 w-1/3 max-h-72">
+          <h3 className="text-xl">Toplam Bildirimler</h3>
+          <Divider my="xs" label="Label on the left" />
+          <Chart2 props={counts} />
+        </div>
+
+        <div className="mt-10 xl:px-16 w-2/3 pl-4">
+          <h3 className="text-xl">Ay a bağlı olarak Geri Bildirimler</h3>
+          <Divider my="xs" label="Label on the left" />
+          <Chart1 />
+        </div>
       </div>
     </div>
   );

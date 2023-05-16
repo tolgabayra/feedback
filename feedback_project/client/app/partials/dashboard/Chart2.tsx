@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
@@ -6,11 +6,11 @@ import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green'],
+  labels: ['Şikayet', 'Öneri', 'İstek', 'Tebrik'],
   datasets: [
     {
       label: '# of Votes',
-      data: [12, 19, 3, 5],
+      data: [12, 6, 3, 5],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -28,6 +28,9 @@ export const data = {
   ],
 };
 
-export default function Chart2({ height }: any) {
-  return <Doughnut height={30} width={100} data={data} />;
+export default function Chart2({ props }: any) {
+  const [tebrik, setTebrik] = useState(props);
+  console.log('TEBRIK', tebrik);
+
+  return <Doughnut data={data} />;
 }
