@@ -10,9 +10,12 @@ def create_feedback():
     data = request.get_json()
     if data is None:
         return jsonify({"Data is not valid"}), 400
-    
-    FeedbackService.create(data)
-    return jsonify({"Message": "Feedback sended."}), 200
+    try:
+        FeedbackService.create(data)
+        return jsonify({"Message": "Feedback sended."}), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({"error": str(e)}), 400
 
 
 @feedback_controller.route("/<int:id>", methods=["DELETE"])
@@ -41,3 +44,9 @@ def feedback_count_list():
         return jsonify({"counts": count, "total": count["Total"]}), 200
     else:
         return jsonify({"Message": "Not found"}), 404
+    
+
+@feedback_controller.route("/count_with_date", methods=["GET"])
+def feedback_count_date_list():
+    count_result = FeedbackService.feedback_count_with_dates()
+    return jsonify(count_result), 200
