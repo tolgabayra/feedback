@@ -3,14 +3,11 @@ from model import db
 
 
 class CityAndDistrictService:
-
     @staticmethod
     def list_city():
-       cities = City.query.all()
-       print(cities)
-       return [city.to_dict() for city in cities]
-    
-
+        cities = City.query.all()
+        print(cities)
+        return [city.to_dict() for city in cities]
 
     @staticmethod
     def list_districts_by_city(city_id):
