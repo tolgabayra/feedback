@@ -32,7 +32,11 @@ def list_feedback():
     auth_header = request.cookies.get('access_token')
     decoded_token = jwt.decode(auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])
     id = decoded_token["some"]["business_id"]
-    feedbacks = FeedbackService.list(business_id=id)
+   
+    offset = int(request.args.get("offset", 0))
+    limit = int(request.args.get("limit", 10))
+    
+    feedbacks = FeedbackService.list(business_id=id, offset=offset, limit=limit)
     return jsonify({"Feedbacks":  feedbacks}), 200
 
 
