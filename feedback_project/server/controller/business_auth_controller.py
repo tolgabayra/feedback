@@ -91,6 +91,7 @@ def refresh_token():
 
 
 @business_auth_controller.route("/change_password", methods=["POST"])
+@jwt_required
 def change_password():
     data = request.get_json()
     current_password = data["current_password"]

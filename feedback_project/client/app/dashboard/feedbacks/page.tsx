@@ -149,21 +149,21 @@ export default function Feedbacks({ props }: any) {
     }
   };
 
-
   const handleGetMoreFeedbacks = async () => {
-    const res = await fetch(`http://localhost:5000/api/v1/feedbacks?offset=${currentFeedbackCount}`, {
-      method: 'GET',
-      credentials: 'include',
-    });
+    const res = await fetch(
+      `http://localhost:5000/api/v1/feedbacks?offset=${currentFeedbackCount}`,
+      {
+        method: 'GET',
+        credentials: 'include',
+      },
+    );
     const data = await res.json();
     const newFeedbacks = data.Feedbacks;
     setNewlyLoadedFeedbacks(newFeedbacks);
     setFeedbacks((prevFeedbacks) => [...prevFeedbacks, ...newFeedbacks]);
-    setCurrentFeedbackCount(prevCount => prevCount + newFeedbacks.length);
+    setCurrentFeedbackCount((prevCount) => prevCount + newFeedbacks.length);
     setTotalFeedbacks(data.totalFeedbacks);
   };
-
-
 
   useEffect(() => {
     // İlk yükleme için feedbackleri getir
@@ -176,16 +176,13 @@ export default function Feedbacks({ props }: any) {
 
   useEffect(() => {
     console.log(feedbacks);
-
-  }, [feedbacks])
-
+  }, [feedbacks]);
 
   const handleScroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       handleGetMoreFeedbacks();
     }
   };
-
 
   return (
     <div>
@@ -263,7 +260,12 @@ export default function Feedbacks({ props }: any) {
           </h3>
           <Divider size="xs" mb="xl" />
           <button onClick={handleGetMoreFeedbacks}>Daha Fazla Yükle</button>
-          <ScrollArea type="auto" h={500} scrollHideDelay={400} onScroll={handleScroll} >
+          <ScrollArea
+            type="auto"
+            h={500}
+            scrollHideDelay={400}
+            onScroll={handleScroll}
+          >
             <div className="container mt-4 mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {feedbacks
@@ -304,8 +306,9 @@ export default function Feedbacks({ props }: any) {
                             {' '}
                             Geri bildirim
                             <span
-                              className={`text-sm text-gray-100 font-mono ${colorClasses[feedback.feedback_type_id]
-                                } inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}
+                              className={`text-sm text-gray-100 font-mono ${
+                                colorClasses[feedback.feedback_type_id]
+                              } inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}
                             >
                               {' '}
                               {feedback.feedback_type_name}{' '}

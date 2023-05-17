@@ -8,8 +8,8 @@ from controller.feedback_page_controller import feedback_page_controller
 from controller.feedback_controller import feedback_controller
 
 app = Flask(__name__, static_folder="uploads")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://root:root@localhost/postgres'
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://root:root@localhost/postgres"
+app.config["UPLOAD_FOLDER"] = "uploads"
 
 db.init_app(app)
 with app.app_context():
@@ -23,5 +23,5 @@ app.register_blueprint(feedback_page_controller, url_prefix="/api/v1/feedback_pa
 app.register_blueprint(feedback_controller, url_prefix="/api/v1/feedbacks")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(port=5000)

@@ -11,8 +11,10 @@ feedback_page_controller = Blueprint("feedback_page_controller", __name__)
 @feedback_page_controller.route("/", methods=["POST"])
 @jwt_required
 def generate_feedback_page():
-    auth_header = request.cookies.get('access_token')
-    decoded_token = jwt.decode(auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])
+    auth_header = request.cookies.get("access_token")
+    decoded_token = jwt.decode(
+        auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"]
+    )
     id = decoded_token["some"]["business_id"]
 
     if not BusinessFeedbackPage.can_create_feeback_page(id):
@@ -35,15 +37,17 @@ def delete_feedback_page(id):
 @feedback_page_controller.route("/", methods=["GET"])
 @jwt_required
 def list_feedbacks():
-    auth_header = request.cookies.get('access_token')
+    auth_header = request.cookies.get("access_token")
     try:
-        decoded_token = jwt.decode(auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])
+        decoded_token = jwt.decode(
+            auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"]
+        )
         business_id = decoded_token["some"]["business_id"]
         feedback_list = FeedbackPageService.list(business_id)
         return jsonify({"Feedbacks": feedback_list}), 200
     except:
         return jsonify({"Message": "Token has expired"}), 401
-    
+
 
 @feedback_page_controller.route("/<string:url_token>", methods=["GET"])
 def show_feedback(url_token: str):

@@ -5,21 +5,26 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 export default function Settings() {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const router = useRouter();
-
 
   const handleChangeRequest = async (e: any) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/v1/auth/change_password", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        'Content-Type': 'application/json'
+    const res = await fetch(
+      'http://localhost:5000/api/v1/auth/change_password',
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword,
+        }),
       },
-      body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
-    })
+    );
     if (res.ok) {
       notifications.show({
         title: 'İşlem Başarılı !',
@@ -27,16 +32,15 @@ export default function Settings() {
         color: 'green',
         autoClose: 1500,
       });
-      router.back()
-      
+      router.back();
     } else {
       notifications.show({
         title: 'Başarısız !',
         message: 'Bilgilerinizi Kontrol Edin',
-        color: 'red'
+        color: 'red',
       });
     }
-  }
+  };
 
   return (
     <div>

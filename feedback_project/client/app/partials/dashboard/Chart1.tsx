@@ -35,8 +35,6 @@ const labels = [
   'Aralık',
 ];
 
-
-
 export default function Chart1({ props }: any) {
   const data = {
     labels: labels,

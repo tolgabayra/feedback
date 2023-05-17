@@ -7,7 +7,4 @@ business_controller = Blueprint("business_controller", __name__)
 @business_controller.route("/", methods=["GET"])
 def list_businesses():
     businesses = BusinessService.list_business_type()
-    return jsonify({"BusinesessTypes":  businesses}), 200
-
-
-
+    return jsonify({"BusinesessTypes": businesses}), 200
