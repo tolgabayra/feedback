@@ -13,7 +13,12 @@ type Counts = {
 
 export default function page() {
   const [totalFeedback, setTotalFeedback] = useState(0);
-  const [counts, setCounts] = useState<Counts>({ Tebrik: 0, Öneri: 0, İstek: 0, Şikayet: 0 });
+  const [counts, setCounts] = useState<Counts>({
+    Tebrik: 0,
+    Öneri: 0,
+    İstek: 0,
+    Şikayet: 0,
+  });
 
   useEffect(() => {
     const getFeedbackCounts = async () => {
@@ -84,8 +89,14 @@ export default function page() {
 
       <div className="flex mt-9 p-3">
         <div className="mt-10 xl:px-16 w-1/3 max-h-72">
-          <h3 className="text-xl text-center font-semibold">Toplam Bildirimler</h3>
-          <Divider labelPosition="center" my="xs" label="Bildirim dağılımlarını aşağıda görebilirsiniz" />
+          <h3 className="text-xl text-center font-semibold">
+            Toplam Bildirimler
+          </h3>
+          <Divider
+            labelPosition="center"
+            my="xs"
+            label="Bildirim dağılımlarını aşağıda görebilirsiniz"
+          />
           <Chart2 props={counts} />
         </div>
 
