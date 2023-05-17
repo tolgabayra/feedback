@@ -1,11 +1,19 @@
 from model import Feedback
 from model import db
 from model import FeedbackType
+from jsonschema import validate, ValidationError
+from validation.feedback_validation import feedbackCreateSchema
 
 class FeedbackService:
 
     @staticmethod
     def create(data):
+
+        try:
+            validate(data, feedbackCreateSchema)
+        except ValidationError as e:
+            raise ValueError(str(e))
+
         feedback = Feedback(
             content=data["content"],
             business_id=data["business_id"],
@@ -13,7 +21,7 @@ class FeedbackService:
         )
         db.session.add(feedback)
         db.session.commit()
-
+        
         return feedback
     
     @staticmethod

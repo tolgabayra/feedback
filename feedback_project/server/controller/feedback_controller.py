@@ -10,9 +10,12 @@ def create_feedback():
     data = request.get_json()
     if data is None:
         return jsonify({"Data is not valid"}), 400
-    
-    FeedbackService.create(data)
-    return jsonify({"Message": "Feedback sended."}), 200
+    try:
+        FeedbackService.create(data)
+        return jsonify({"Message": "Feedback sended."}), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({"error": str(e)}), 400
 
 
 @feedback_controller.route("/<int:id>", methods=["DELETE"])
