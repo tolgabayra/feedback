@@ -13,6 +13,14 @@ type FeedbackPage = {
   expire_time: any;
 };
 
+interface Feedback {
+  id: number;
+  content: string;
+  created_at: string;
+  feedback_type_id: number;
+  feedback_type_name: string;
+}
+
 function formatRemainingTime(date: any) {
   let expireTime: any = new Date(date);
   let now: any = new Date();
@@ -27,8 +35,11 @@ function formatRemainingTime(date: any) {
 
 export default function Feedbacks({ props }: any) {
   const [qrData, setQRData] = useState('');
-  const [feedbacks, setFeedbacks] = useState([]);
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [feedbackPages, setFeedbackPages] = useState([]);
+  const [newlyLoadedFeedbacks, setNewlyLoadedFeedbacks] = useState([]);
+  const [totalFeedbacks, setTotalFeedbacks] = useState(0);
+  const [currentFeedbackCount, setCurrentFeedbackCount] = useState(0);
 
   const handleGetFeedbackPage = async () => {
     const res = await fetch('http://localhost:5000/api/v1/feedback_pages', {
@@ -111,6 +122,11 @@ export default function Feedbacks({ props }: any) {
       credentials: 'include',
     });
     const data = await res.json();
+    const { Feedbacks, total } = data;
+    setTotalFeedbacks(total);
+    setCurrentFeedbackCount(Feedbacks.length);
+    console.log(data);
+
     setFeedbacks(data.Feedbacks);
   };
   useEffect(() => {
@@ -132,6 +148,44 @@ export default function Feedbacks({ props }: any) {
       getFeedbacks();
     }
   };
+
+
+  const handleGetMoreFeedbacks = async () => {
+    const res = await fetch(`http://localhost:5000/api/v1/feedbacks?offset=${currentFeedbackCount}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const data = await res.json();
+    const newFeedbacks = data.Feedbacks;
+    setNewlyLoadedFeedbacks(newFeedbacks);
+    setFeedbacks((prevFeedbacks) => [...prevFeedbacks, ...newFeedbacks]);
+    setCurrentFeedbackCount(prevCount => prevCount + newFeedbacks.length);
+    setTotalFeedbacks(data.totalFeedbacks);
+  };
+
+
+
+  useEffect(() => {
+    // İlk yükleme için feedbackleri getir
+    handleGetMoreFeedbacks();
+    window.addEventListener('scroll', handleScroll); // Scroll olayını dinle
+    return () => {
+      window.removeEventListener('scroll', handleScroll); // Scroll olayını temizle
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log(feedbacks);
+
+  }, [feedbacks])
+
+
+  const handleScroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      handleGetMoreFeedbacks();
+    }
+  };
+
 
   return (
     <div>
@@ -208,7 +262,8 @@ export default function Feedbacks({ props }: any) {
             Geri bildirimleriniz burda görünür
           </h3>
           <Divider size="xs" mb="xl" />
-          <ScrollArea type="auto" h={800} scrollHideDelay={500}>
+          <button onClick={handleGetMoreFeedbacks}>Daha Fazla Yükle</button>
+          <ScrollArea type="auto" h={500} scrollHideDelay={400} onScroll={handleScroll} >
             <div className="container mt-4 mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {feedbacks
@@ -249,9 +304,8 @@ export default function Feedbacks({ props }: any) {
                             {' '}
                             Geri bildirim
                             <span
-                              className={`text-sm text-gray-100 font-mono ${
-                                colorClasses[feedback.feedback_type_id]
-                              } inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}
+                              className={`text-sm text-gray-100 font-mono ${colorClasses[feedback.feedback_type_id]
+                                } inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}
                             >
                               {' '}
                               {feedback.feedback_type_name}{' '}
