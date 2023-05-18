@@ -12,8 +12,6 @@ def log_request(func):
         with open(log_file, 'a') as file:
             file.write(f'Method: {request.method}\n')
             file.write(f'URL: {request.url}\n')
-
-
         return func(*args, **kwargs)
 
     return wrapper
