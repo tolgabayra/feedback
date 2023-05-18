@@ -8,7 +8,7 @@ from controller.feedback_page_controller import feedback_page_controller
 from controller.feedback_controller import feedback_controller
 
 app = Flask(__name__, static_folder="uploads")
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://root:root@localhost/postgres"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:J3eTFVIhAOCepsGK8Baa@containers-us-west-88.railway.app:7675/railway"
 app.config["UPLOAD_FOLDER"] = "uploads"
 
 db.init_app(app)
