@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Menu, Button, Text } from '@mantine/core';
+import { Menu, Button } from '@mantine/core';
 import { IconSettings, IconTrash } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
