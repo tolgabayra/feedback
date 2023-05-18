@@ -259,7 +259,12 @@ export default function Feedbacks({ props }: any) {
             Geri bildirimleriniz burda görünür
           </h3>
           <Divider size="xs" mb="xl" />
-          <button onClick={handleGetMoreFeedbacks}>Daha Fazla Yükle</button>
+          <button
+            className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 p-1 text-xs text-white round-xs"
+            onClick={handleGetMoreFeedbacks}
+          >
+            Daha Fazla Yükle
+          </button>
           <ScrollArea
             type="auto"
             h={500}

@@ -1,6 +1,5 @@
 'use client';
 import { Notification } from '@mantine/core';
-import { IconCheck } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
