@@ -12,10 +12,7 @@ def log_request(func):
         with open(log_file, 'a') as file:
             file.write(f'Method: {request.method}\n')
             file.write(f'URL: {request.url}\n')
-            file.write(f'Headers: {request.headers}\n')
-            file.write(f'Query String: {request.query_string.decode("utf-8")}\n')
-            file.write(f'JSON Data: {request.get_json()}\n')
-            file.write('\n')
+
 
         return func(*args, **kwargs)
 
