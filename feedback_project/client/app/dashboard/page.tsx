@@ -19,6 +19,7 @@ export default function page() {
     İstek: 0,
     Şikayet: 0,
   });
+  const [countsWithDate, setCountWithDate] = useState<any>();
 
   useEffect(() => {
     const getFeedbackCounts = async () => {
@@ -34,6 +35,20 @@ export default function page() {
     };
     getFeedbackCounts();
   }, []);
+
+  useEffect(() => {
+    const getFeedbackCountsWithDate = async () => {
+      const res = await fetch("http://localhost:5000/api/v1/feedbacks/count_with_date", {
+        method: "GET",
+        credentials: "include"
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCountWithDate(data)
+      }
+    }
+    getFeedbackCountsWithDate()
+  }, [])
 
   return (
     <div>
@@ -103,7 +118,7 @@ export default function page() {
         <div className="mt-10 xl:px-16 w-2/3 pl-4">
           <h3 className="text-xl">Ay a bağlı olarak Geri Bildirimler</h3>
           <Divider my="xs" label="Label on the left" />
-          <Chart1 props={counts} />
+          <Chart1 props={countsWithDate} />
         </div>
       </div>
     </div>
