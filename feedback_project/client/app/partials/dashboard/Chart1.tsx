@@ -21,7 +21,7 @@ ChartJS.register(
   Legend,
 );
 
-const labels = [
+const labelsTr = [
   'Ocak',
   'Şubat',
   'Mart',
@@ -73,7 +73,7 @@ export default function Chart1({ props }: any) {
   const data = Object.values(feedbackCountsByMonth);
 
   const chartData = {
-    labels: labels,
+    labels: labelsTr,
     datasets: [
       {
         label: 'Toplam Geri Bildirim',
