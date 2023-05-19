@@ -1,13 +1,11 @@
-
-
 class Config:
-    DEBUG=False
+    DEBUG = False
 
 
 class DevelopmentConfig(Config):
     pass
 
+
 class ProductionConfig(Config):
-    server_port=0
-    server_url=""
-    
+    server_port = 0
+    server_url = ""
