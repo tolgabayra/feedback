@@ -37,12 +37,18 @@ const labels = [
 ];
 
 export default function Chart1({ props }: any) {
-  const [feedbackCountsByMonth, setFeedbackCountsByMonth] = useState<{ [key: string]: number }>({});
-  
-  
+  const [feedbackCountsByMonth, setFeedbackCountsByMonth] = useState<{
+    [key: string]: number;
+  }>({});
+
   useEffect(() => {
     if (props && props.Tebrik) {
-      const feedbackData = [props.Tebrik, props.Şikayet, props.Öneri, props.İstek];
+      const feedbackData = [
+        props.Tebrik,
+        props.Şikayet,
+        props.Öneri,
+        props.İstek,
+      ];
       const allFeedbackDates: string[] = [];
 
       feedbackData.forEach((feedback: any) => {
@@ -53,7 +59,9 @@ export default function Chart1({ props }: any) {
       const countsByMonth: { [key: string]: number } = {};
 
       allFeedbackDates.forEach((date: string) => {
-        const month = new Date(date).toLocaleString('default', { month: 'long' });
+        const month = new Date(date).toLocaleString('default', {
+          month: 'long',
+        });
         countsByMonth[month] = (countsByMonth[month] || 0) + 1;
       });
 
@@ -63,7 +71,6 @@ export default function Chart1({ props }: any) {
 
   const labels = Object.keys(feedbackCountsByMonth);
   const data = Object.values(feedbackCountsByMonth);
-  
 
   const chartData = {
     labels: labels,
