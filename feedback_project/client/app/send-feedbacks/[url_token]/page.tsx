@@ -1,8 +1,9 @@
 'use client';
-import { Notification } from '@mantine/core';
+import { Alert, Notification } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { IconCheck } from '@tabler/icons-react';
 
 export default function Page({ params }: any) {
   const [isOkey, setIsOkey] = useState(false);
@@ -87,22 +88,21 @@ export default function Page({ params }: any) {
         <div>
           <section className="bg-gradient-to-b from-gray-100 to-white">
             {isSend ? (
-              <Notification
-                className="text-center"
-                color="green"
-                title="Gönderildi"
-              >
-                <p className="text-xl">Teşekkür ederiz</p>
-              </Notification>
+              <div className='flex justify-center'>
+                <Alert className='m-1' icon={<IconCheck size="1rem" />} title="Bildiriminiz Başarıyla İletildi" color="green" variant="outline">
+                  Teşekkür ederiz.
+                </Alert>
+              </div>
+
             ) : (
               <div className="max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="pt-32 pb-12 md:pt-16 md:pb-20">
                   <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
                     <div>
-                      <p> {businessName} </p>
-                      <p> {businessAddress} </p>
+                      <p><span className='text-blue-500'>Firma Adı: </span> {businessName} </p>
+                      <p><span className='text-blue-500'>Adresi: </span> {businessAddress} </p>
                     </div>
-                    <h1 className="mt-5">
+                    <h1 className="mt-5 text-xl">
                       Merhaba, bu firma hakkında geri bildirimde
                       bulunabilirsiniz.
                     </h1>
