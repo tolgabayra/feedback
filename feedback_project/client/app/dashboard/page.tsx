@@ -38,17 +38,20 @@ export default function page() {
 
   useEffect(() => {
     const getFeedbackCountsWithDate = async () => {
-      const res = await fetch("http://localhost:5000/api/v1/feedbacks/count_with_date", {
-        method: "GET",
-        credentials: "include"
-      });
+      const res = await fetch(
+        'http://localhost:5000/api/v1/feedbacks/count_with_date',
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
       const data = await res.json();
       if (res.ok) {
-        setCountWithDate(data)
+        setCountWithDate(data);
       }
-    }
-    getFeedbackCountsWithDate()
-  }, [])
+    };
+    getFeedbackCountsWithDate();
+  }, []);
 
   return (
     <div>
