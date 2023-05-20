@@ -65,3 +65,14 @@ def feedback_count_list():
 def feedback_count_date_list():
     count_result = FeedbackService.feedback_count_with_dates()
     return jsonify(count_result), 200
+
+
+@feedback_controller.route("/delete_all", methods=["DELETE"])
+def feedback_delete_all():
+    auth_header = request.cookies.get("access_token")
+    decoded_token = jwt.decode(
+        auth_header, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"]
+    )
+    id = decoded_token["some"]["business_id"]
+    FeedbackService.delete_all(id)
+    return jsonify({"Message": "Deleted all feedbacks"}), 200
