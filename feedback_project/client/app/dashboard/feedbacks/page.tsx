@@ -307,7 +307,7 @@ export default function Feedbacks({ props }: any) {
             ))}
           </div>
           <h3 className="text-xl text-center mb-1 font-medium hover:text-gray-800">
-            Geri bildirimleriniz burda görünür
+            Geri bildirimler
           </h3>
           <Divider size="xs" mb="xl" />
           <div className="flex mb-1 justify-end">
