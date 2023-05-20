@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
-import { Accordion, Button, Divider, LoadingOverlay, ScrollArea } from '@mantine/core';
+import { Accordion, ActionIcon, Button, Divider, LoadingOverlay, ScrollArea } from '@mantine/core';
 import Link from 'next/link';
 import { notifications } from '@mantine/notifications';
+import { IconAdjustmentsPlus } from '@tabler/icons-react';
+import { IconAdjustmentsMinus } from '@tabler/icons-react';
 
 type FeedbackPage = {
   id: number;
@@ -41,7 +43,7 @@ export default function Feedbacks({ props }: any) {
   const [totalFeedbacks, setTotalFeedbacks] = useState(0);
   const [currentFeedbackCount, setCurrentFeedbackCount] = useState(0);
   const [loading, setLoading] = useState(false);
-
+  const [zoomLevel, setZoomLevel] = useState(100);
 
   const handleGetFeedbackPage = async () => {
     const res = await fetch('http://localhost:5000/api/v1/feedback_pages', {
@@ -268,11 +270,22 @@ export default function Feedbacks({ props }: any) {
             Geri bildirimleriniz burda görünür
           </h3>
           <Divider size="xs" mb="xl" />
-            <Button variant="outline" compact mb="md" onClick={handleGetMoreFeedbacks}>
-              Daha fazla yükle
-            </Button>
-            <p className="text-xs opacity-60">Yüklenen Toplam Bildirim Sayısı: {feedbacks.length} </p>
+          <div className='flex mb-1'>
+            <ActionIcon onClick={() => setZoomLevel(100)} className=" mr-1" color="indigo" variant="outline" radius="xl">
+              <IconAdjustmentsPlus size="1.125rem" />
+            </ActionIcon>
+            <ActionIcon onClick={() => setZoomLevel(90)} color="indigo" variant="outline" radius="xl">
+              <IconAdjustmentsMinus size="1.125rem" />
+            </ActionIcon>
+
+          </div>
+          <Button variant="outline" compact mb="md" onClick={handleGetMoreFeedbacks}>
+            Daha fazla yükle
+          </Button>
+
+          <p className="text-xs opacity-60">Yüklenen Toplam Bildirim Sayısı: {feedbacks.length} </p>
           <ScrollArea
+            className={`transform scale-${zoomLevel}`}
             type="auto"
             h={500}
             scrollHideDelay={400}
@@ -281,7 +294,7 @@ export default function Feedbacks({ props }: any) {
 
             {
               loading ? (
-                <div className="container mt-4 mx-auto">
+                <div className="container mt-1 mx-auto">
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {feedbacks
                       .sort(
