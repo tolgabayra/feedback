@@ -24,8 +24,6 @@ class FeedbackService:
             return False
 
        
-
-
     @staticmethod
     def create(data):
         try:
@@ -115,3 +113,13 @@ class FeedbackService:
                 ],
             }  # Geri bildirim tipi adı ve sayısı sözlükte saklanacak, aynı zamanda oluşturma tarihlerini de listeye ekliyoruz
         return result
+    
+
+    @staticmethod
+    def delete_all(id):
+        feedbacks = Feedback.query.filter_by(business_id=id).all()
+        for feedback in feedbacks:
+            db.session.delete(feedback)
+        db.session.commit()
+        return True
+
