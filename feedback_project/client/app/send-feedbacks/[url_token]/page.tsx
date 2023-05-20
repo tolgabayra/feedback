@@ -88,19 +88,30 @@ export default function Page({ params }: any) {
         <div>
           <section className="bg-gradient-to-b from-gray-100 to-white">
             {isSend ? (
-              <div className='flex justify-center'>
-                <Alert className='m-1' icon={<IconCheck size="1rem" />} title="Bildiriminiz Başarıyla İletildi" color="green" variant="outline">
+              <div className="flex justify-center">
+                <Alert
+                  className="m-1"
+                  icon={<IconCheck size="1rem" />}
+                  title="Bildiriminiz Başarıyla İletildi"
+                  color="green"
+                  variant="outline"
+                >
                   Teşekkür ederiz.
                 </Alert>
               </div>
-
             ) : (
               <div className="max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="pt-32 pb-12 md:pt-16 md:pb-20">
                   <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
                     <div>
-                      <p><span className='text-blue-500'>Firma Adı: </span> {businessName} </p>
-                      <p><span className='text-blue-500'>Adresi: </span> {businessAddress} </p>
+                      <p>
+                        <span className="text-blue-500">Firma Adı: </span>{' '}
+                        {businessName}{' '}
+                      </p>
+                      <p>
+                        <span className="text-blue-500">Adresi: </span>{' '}
+                        {businessAddress}{' '}
+                      </p>
                     </div>
                     <h1 className="mt-5 text-xl">
                       Merhaba, bu firma hakkında geri bildirimde

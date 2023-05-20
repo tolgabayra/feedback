@@ -54,8 +54,7 @@ export default function page() {
   }, []);
 
   return (
-    <div className='h-screen'>
-
+    <div className="h-screen">
       {/* Statics */}
       <div className="bg-gray-50 rounded-md px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-3">
         <div className="text-center md:border-b pb-3">
@@ -120,10 +119,14 @@ export default function page() {
         </div>
 
         <div className="mt-10 xl:px-16 w-2/3 pl-4">
-          <h3 className="text-xl text-center font-semibold">Ay a bağlı olarak Geri Bildirimler</h3>
+          <h3 className="text-xl text-center font-semibold">
+            Ay a bağlı olarak Geri Bildirimler
+          </h3>
           <Divider
             labelPosition="center"
-            my="xs" label="Yıllık grafiğe göre dağılım" />
+            my="xs"
+            label="Yıllık grafiğe göre dağılım"
+          />
           <Chart1 props={countsWithDate} />
         </div>
       </div>

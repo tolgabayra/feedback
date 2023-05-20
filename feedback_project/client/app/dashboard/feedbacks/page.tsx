@@ -2,7 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
-import { Accordion, ActionIcon, Button, Divider, LoadingOverlay, Popover, ScrollArea } from '@mantine/core';
+import {
+  Accordion,
+  ActionIcon,
+  Button,
+  Divider,
+  LoadingOverlay,
+  Popover,
+  ScrollArea,
+} from '@mantine/core';
 import Link from 'next/link';
 import { notifications } from '@mantine/notifications';
 import { IconAdjustmentsPlus } from '@tabler/icons-react';
@@ -154,13 +162,15 @@ export default function Feedbacks({ props }: any) {
     }
   };
 
-
   const handleDeleteAllFeedback = async () => {
     setPopOverD(true);
-    const res = await fetch("http://localhost:5000/api/v1/feedbacks/delete_all", {
-      method: "DELETE",
-      credentials: "include"
-    })
+    const res = await fetch(
+      'http://localhost:5000/api/v1/feedbacks/delete_all',
+      {
+        method: 'DELETE',
+        credentials: 'include',
+      },
+    );
     if (res.ok) {
       notifications.show({
         title: 'Tüm Feedbacklar Silindi',
@@ -168,15 +178,14 @@ export default function Feedbacks({ props }: any) {
         color: 'green',
         autoClose: 1500,
       });
-      setPopOverD(false)
+      setPopOverD(false);
     }
     getFeedbacks();
-  }
+  };
 
   useEffect(() => {
     console.log(zoomLevel);
-  }, [zoomLevel])
-
+  }, [zoomLevel]);
 
   const handleGetMoreFeedbacks = async () => {
     setLoading(false);
@@ -196,9 +205,8 @@ export default function Feedbacks({ props }: any) {
       setTotalFeedbacks(data.totalFeedbacks);
       setTimeout(() => {
         setLoading(true);
-      }, 1500)
+      }, 1500);
     }
-
   };
 
   useEffect(() => {
@@ -295,33 +303,62 @@ export default function Feedbacks({ props }: any) {
             Geri bildirimleriniz burda görünür
           </h3>
           <Divider size="xs" mb="xl" />
-          <div className='flex mb-1 justify-end'>
-            <ActionIcon onClick={() => setZoomLevel(100)} className=" mr-1" color="indigo" variant="outline" radius="xl">
+          <div className="flex mb-1 justify-end">
+            <ActionIcon
+              onClick={() => setZoomLevel(100)}
+              className=" mr-1"
+              color="indigo"
+              variant="outline"
+              radius="xl"
+            >
               <IconAdjustmentsPlus size="1.125rem" />
             </ActionIcon>
-            <ActionIcon onClick={() => setZoomLevel(90)} color="indigo" variant="outline" radius="xl">
+            <ActionIcon
+              onClick={() => setZoomLevel(90)}
+              color="indigo"
+              variant="outline"
+              radius="xl"
+            >
               <IconAdjustmentsMinus size="1.125rem" />
             </ActionIcon>
-
           </div>
-          <Button variant="outline" compact mb="md" onClick={handleGetMoreFeedbacks}>
+          <Button
+            variant="outline"
+            compact
+            mb="md"
+            onClick={handleGetMoreFeedbacks}
+          >
             Daha fazla yükle
           </Button>
           <Popover opened={popOverD} position="bottom-start">
             <Popover.Target>
-              <Button variant="outline" color="red" ml="xs" compact mb="md" onClick={() => setPopOverD(true)}>
+              <Button
+                variant="outline"
+                color="red"
+                ml="xs"
+                compact
+                mb="md"
+                onClick={() => setPopOverD(true)}
+              >
                 Toplu Sil
               </Button>
             </Popover.Target>
             <Popover.Dropdown className=" text-xs">
-              <p>
-                Bu işlemi yapmak istediğinizden emin misiniz ?
-              </p>
-              <Button onClick={handleDeleteAllFeedback} variant="outline" compact mt="xs" >İşlemi Onayla</Button>
+              <p>Bu işlemi yapmak istediğinizden emin misiniz ?</p>
+              <Button
+                onClick={handleDeleteAllFeedback}
+                variant="outline"
+                compact
+                mt="xs"
+              >
+                İşlemi Onayla
+              </Button>
             </Popover.Dropdown>
           </Popover>
 
-          <p className="text-xs opacity-60">Yüklenen Toplam Bildirim Sayısı: {feedbacks.length} </p>
+          <p className="text-xs opacity-60">
+            Yüklenen Toplam Bildirim Sayısı: {feedbacks.length}{' '}
+          </p>
           <ScrollArea
             className={`transform scale-${zoomLevel}`}
             type="auto"
@@ -329,78 +366,78 @@ export default function Feedbacks({ props }: any) {
             scrollHideDelay={400}
             onScroll={handleScroll}
           >
+            {loading ? (
+              <div className="container mt-1 mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {feedbacks
+                    .sort(
+                      (a: any, b: any) =>
+                        new Date(b.created_at).getTime() -
+                        new Date(a.created_at).getTime(),
+                    )
+                    .map((feedback: any) => {
+                      let createdDate = new Date(
+                        feedback.created_at,
+                      ).toLocaleDateString();
+                      const colorClasses: any = {
+                        1: 'bg-yellow-600',
+                        2: 'bg-blue-600',
+                        3: 'bg-red-600',
+                        4: 'bg-green-600',
+                      };
 
-            {
-              loading ? (
-                <div className="container mt-1 mx-auto">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {feedbacks
-                      .sort(
-                        (a: any, b: any) =>
-                          new Date(b.created_at).getTime() -
-                          new Date(a.created_at).getTime(),
-                      )
-                      .map((feedback: any) => {
-                        let createdDate = new Date(
-                          feedback.created_at,
-                        ).toLocaleDateString();
-                        const colorClasses: any = {
-                          1: 'bg-yellow-600',
-                          2: 'bg-blue-600',
-                          3: 'bg-red-600',
-                          4: 'bg-green-600',
-                        };
-
-                        return (
-                          <div
-                            key={feedback.id}
-                            className="card m-2 p-1 border border-gray-400 rounded-sm hover:shadow-md hover:border-opacity-50 transform hover:-translate-y-1 transition-all duration-200"
+                      return (
+                        <div
+                          key={feedback.id}
+                          className="card m-2 p-1 border border-gray-400 rounded-sm hover:shadow-md hover:border-opacity-50 transform hover:-translate-y-1 transition-all duration-200"
+                        >
+                          <Button
+                            onClick={(e) => handleDeleteFeedback(feedback.id)}
+                            className="ml-1 mt-1 w-10"
+                            variant="outline"
+                            color="red"
+                            radius="xs"
+                            size="xs"
+                            compact
                           >
-                            <Button
-                              onClick={(e) => handleDeleteFeedback(feedback.id)}
-                              className="ml-1 mt-1 w-10"
-                              variant="outline"
-                              color="red"
-                              radius="xs"
-                              size="xs"
-                              compact
-                            >
-                              Sil
-                            </Button>
-                            <div className="m-3">
-                              <h2 className="text-lg mb-2">
+                            Sil
+                          </Button>
+                          <div className="m-3">
+                            <h2 className="text-lg mb-2">
+                              {' '}
+                              Geri bildirim
+                              <span
+                                className={`text-sm text-gray-100 font-mono ${
+                                  colorClasses[feedback.feedback_type_id]
+                                } inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}
+                              >
                                 {' '}
-                                Geri bildirim
-                                <span
-                                  className={`text-sm text-gray-100 font-mono ${colorClasses[feedback.feedback_type_id]
-                                    } inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}
-                                >
-                                  {' '}
-                                  {feedback.feedback_type_name}{' '}
-                                </span>
-                              </h2>
-                              <Divider mb="xs" />
-                              <p className="font-light cursor-text font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200">
-                                {' '}
-                                {feedback.content}{' '}
-                              </p>
-                            </div>
-                            <div>
-                              <Divider />
-                              <p className="ml-3 text-sm mt-1">{createdDate}</p>
-                            </div>
+                                {feedback.feedback_type_name}{' '}
+                              </span>
+                            </h2>
+                            <Divider mb="xs" />
+                            <p className="font-light cursor-text font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200">
+                              {' '}
+                              {feedback.content}{' '}
+                            </p>
                           </div>
-                        );
-                      })}
-                  </div>
+                          <div>
+                            <Divider />
+                            <p className="ml-3 text-sm mt-1">{createdDate}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
                 </div>
-              ) : <LoadingOverlay
+              </div>
+            ) : (
+              <LoadingOverlay
                 loaderProps={{ size: 'sm', color: 'blue', variant: 'bars' }}
                 overlayOpacity={0.3}
                 overlayColor="#c5c5c5"
                 visible
               />
-            }
+            )}
           </ScrollArea>
         </div>
       </div>
