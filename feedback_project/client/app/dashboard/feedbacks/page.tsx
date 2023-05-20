@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
-import { Accordion, ActionIcon, Button, Divider, LoadingOverlay, ScrollArea } from '@mantine/core';
+import { Accordion, ActionIcon, Button, Divider, LoadingOverlay, Popover, ScrollArea } from '@mantine/core';
 import Link from 'next/link';
 import { notifications } from '@mantine/notifications';
 import { IconAdjustmentsPlus } from '@tabler/icons-react';
@@ -44,6 +44,7 @@ export default function Feedbacks({ props }: any) {
   const [currentFeedbackCount, setCurrentFeedbackCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(100);
+  const [popOverD, setPopOverD] = useState(false);
 
   const handleGetFeedbackPage = async () => {
     const res = await fetch('http://localhost:5000/api/v1/feedback_pages', {
@@ -152,6 +153,30 @@ export default function Feedbacks({ props }: any) {
       getFeedbacks();
     }
   };
+
+
+  const handleDeleteAllFeedback = async () => {
+    setPopOverD(true);
+    const res = await fetch("http://localhost:5000/api/v1/feedbacks/delete_all", {
+      method: "DELETE",
+      credentials: "include"
+    })
+    if (res.ok) {
+      notifications.show({
+        title: 'Tüm Feedbacklar Silindi',
+        message: 'İşlem Başarılı',
+        color: 'green',
+        autoClose: 1500,
+      });
+      setPopOverD(false)
+    }
+    getFeedbacks();
+  }
+
+  useEffect(() => {
+    console.log(zoomLevel);
+  }, [zoomLevel])
+
 
   const handleGetMoreFeedbacks = async () => {
     setLoading(false);
@@ -270,7 +295,7 @@ export default function Feedbacks({ props }: any) {
             Geri bildirimleriniz burda görünür
           </h3>
           <Divider size="xs" mb="xl" />
-          <div className='flex mb-1'>
+          <div className='flex mb-1 justify-end'>
             <ActionIcon onClick={() => setZoomLevel(100)} className=" mr-1" color="indigo" variant="outline" radius="xl">
               <IconAdjustmentsPlus size="1.125rem" />
             </ActionIcon>
@@ -282,6 +307,19 @@ export default function Feedbacks({ props }: any) {
           <Button variant="outline" compact mb="md" onClick={handleGetMoreFeedbacks}>
             Daha fazla yükle
           </Button>
+          <Popover opened={popOverD} position="bottom-start">
+            <Popover.Target>
+              <Button variant="outline" color="red" ml="xs" compact mb="md" onClick={() => setPopOverD(true)}>
+                Toplu Sil
+              </Button>
+            </Popover.Target>
+            <Popover.Dropdown className=" text-xs">
+              <p>
+                Bu işlemi yapmak istediğinizden emin misiniz ?
+              </p>
+              <Button onClick={handleDeleteAllFeedback} variant="outline" compact mt="xs" >İşlemi Onayla</Button>
+            </Popover.Dropdown>
+          </Popover>
 
           <p className="text-xs opacity-60">Yüklenen Toplam Bildirim Sayısı: {feedbacks.length} </p>
           <ScrollArea
@@ -363,10 +401,6 @@ export default function Feedbacks({ props }: any) {
                 visible
               />
             }
-
-
-
-
           </ScrollArea>
         </div>
       </div>
