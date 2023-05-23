@@ -194,9 +194,6 @@ export default function Feedbacks({ props }: any) {
     getFeedbacks();
   };
 
-  useEffect(() => {
-    console.log(zoomLevel);
-  }, [zoomLevel]);
 
   const handleGetMoreFeedbacks = async () => {
     setLoading(false);
