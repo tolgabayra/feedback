@@ -152,13 +152,17 @@ export default function Feedbacks({ props }: any) {
       credentials: 'include',
     });
     if (res.ok) {
+      setLoading(false);
       notifications.show({
         title: 'Silindi',
         message: 'İşlem Başarılı',
         color: 'green',
         autoClose: 1500,
       });
-      getFeedbacks();
+      setTimeout(() => {
+        setLoading(true);
+        getFeedbacks();
+      }, 1000);
     }
   };
 
@@ -414,8 +418,9 @@ export default function Feedbacks({ props }: any) {
                               {' '}
                               Geri bildirim
                               <span
-                                className={`text-sm text-gray-100 font-mono ${colorClasses[feedback.feedback_type_id]
-                                  } inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}
+                                className={`text-sm text-gray-100 font-mono ${
+                                  colorClasses[feedback.feedback_type_id]
+                                } inline rounded-sm px-3 mt-1 align-top float-right animate-pulse`}
                               >
                                 {' '}
                                 {feedback.feedback_type_name}{' '}
