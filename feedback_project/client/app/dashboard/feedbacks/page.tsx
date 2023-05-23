@@ -152,15 +152,23 @@ export default function Feedbacks({ props }: any) {
       credentials: 'include',
     });
     if (res.ok) {
+      setLoading(false)
       notifications.show({
         title: 'Silindi',
         message: 'İşlem Başarılı',
         color: 'green',
         autoClose: 1500,
       });
-      getFeedbacks();
+      setTimeout(() => {
+        setLoading(true);
+        getFeedbacks();
+      }, 1000)
     }
   };
+
+  useEffect(() => {
+    totalFeedbacks
+  }, [totalFeedbacks])
 
   const handleDeleteAllFeedback = async () => {
     setPopOverD(true);
