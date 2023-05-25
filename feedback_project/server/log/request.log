@@ -6,3 +6,9 @@ Method: GET
 URL: http://localhost:5000/api/v1/businesses/
 Method: GET
 URL: http://localhost:5000/api/v1/businesses/
+Method: GET
+URL: http://localhost:5000/api/v1/businesses/
+Method: GET
+URL: http://localhost:5000/api/v1/businesses/
+Method: GET
+URL: http://localhost:5000/api/v1/businesses/
