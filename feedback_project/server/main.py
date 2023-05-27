@@ -6,10 +6,12 @@ from controller.city_and_district_controller import city_and_district_controller
 from controller.business_controller import business_controller
 from controller.feedback_page_controller import feedback_page_controller
 from controller.feedback_controller import feedback_controller
+from config import RabbitMqConfig
 
 app = Flask(__name__, static_folder="uploads")
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://root:root@localhost/postgres"
 app.config["UPLOAD_FOLDER"] = "uploads"
+app.config.from_object(RabbitMqConfig)
 
 db.init_app(app)
 with app.app_context():
