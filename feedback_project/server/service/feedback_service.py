@@ -5,25 +5,27 @@ from jsonschema import validate, ValidationError
 from validation.feedback_validation import feedbackCreateSchema
 import random
 
+
 class FeedbackService:
-
-
     @staticmethod
     def generate_random_feedback():
         feedback_types = [1, 2, 3, 4]
         try:
             for _ in range(100):
-                content = "Rasgele bir yorum"  # Burayı istediğiniz gibi özelleştirebilirsiniz
+                content = (
+                    "Rasgele bir yorum"  # Burayı istediğiniz gibi özelleştirebilirsiniz
+                )
                 feedback_type_id = random.choice(feedback_types)
-            
-                feedback = Feedback(business_id=1 ,content=content, feedback_type_id=feedback_type_id)
+
+                feedback = Feedback(
+                    business_id=1, content=content, feedback_type_id=feedback_type_id
+                )
                 db.session.add(feedback)
-            db.session.commit() 
+            db.session.commit()
             return True
         except:
             return False
 
-       
     @staticmethod
     def create(data):
         try:
@@ -113,7 +115,6 @@ class FeedbackService:
                 ],
             }  # Geri bildirim tipi adı ve sayısı sözlükte saklanacak, aynı zamanda oluşturma tarihlerini de listeye ekliyoruz
         return result
-    
 
     @staticmethod
     def delete_all(id):
@@ -122,4 +123,3 @@ class FeedbackService:
             db.session.delete(feedback)
         db.session.commit()
         return True
-
